@@ -1,5 +1,5 @@
 # PROJET 1 : APPLICATION ASP.NET MVC
-# Dernier push : Dimanche 14h44
+# Membres de l'équipe : Damien Meistertzheim et Amine Zeghad
 
 Jour 1 : Brainstorming et début de réalisation du planning (avec l'outil GANTTER for google drive)
 
