@@ -1,0 +1,28 @@
+/* Modif des balises directement */
+
+body {
+    color: darkcyan;
+}
+
+section h1 {
+    color: red;
+}
+
+header {
+    background-color: skyblue;
+}
+
+/* Gestion des ID */
+#wrapper {
+    width: 1000px;
+    background-color: bisque;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Gestion des class */
+
+.grasbleu {
+    color: blue;
+    font-weight: bold;
+}
