@@ -1,21 +1,36 @@
 /* Modif des balises directement */
 
 body {
-    color: darkcyan;
+    color: darkblue;
 }
 
 section h1 {
     color: red;
+    font-size-adjust: auto;
 }
 
 header {
-    background-color: skyblue;
+    background-color: white;
+    font-size: 90%;
 }
 
 /* Gestion des ID */
-#wrapper {
-    width: 1000px;
+/*#wrapper {
+    width: 800px;
+    height: 600px;
     background-color: bisque;
+    margin-left: auto;
+    margin-right: auto;
+}
+*/
+
+#wrapper {
+    background-color:#EEE;
+    border: 1px solid black;
+    float:center;
+    left:200px;
+    top: 50px;
+    width:800px;
     margin-left: auto;
     margin-right: auto;
 }
