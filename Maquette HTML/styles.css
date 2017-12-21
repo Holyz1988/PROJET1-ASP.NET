@@ -24,6 +24,16 @@ header {
 }
 */
 
+.bouton a {
+display:block;
+width:150px;
+line-height:50px;
+text-align:center;
+vertical-align:middle;
+color:white;
+text-decoration:none;
+}
+
 #wrapper {
     background-color:#EEE;
     border: 1px solid black;
