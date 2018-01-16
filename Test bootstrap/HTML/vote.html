@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Title</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+  </head>
+
+  <body> 
+    <nav class="container-fluid navbar navbar-expand-lg navbar-dark bg-dark justify-content-end">
+        <ul class="nav justify-content-end">
+            <li class="nav-item">
+                <form class="form-inline">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                </form>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Sign In</a>
+             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">|</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Sign Out</a>
+            </li>
+        </ul>
+    </nav>
+    <header class="container">
+        <img src="simpoll.png" alt="Logo Simpoll" />
+    </header>
+    <section class="container">
+            <from method="post">
+                <div class="form-group mb-5">
+                    <input type="text" class="form-control" name="question" placeholder="Saisir une question">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" name="choix1"  placeholder="Saisir un choix de réponse">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" name="choix2"  placeholder="Saisir un choix de réponse">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" name="choix3" placeholder="Saisir un choix de réponse">
+                </div>
+                <div class="mb-4">  
+                <label class="custom-control custom-radio">
+                        <input id="radio1" name="choix_multiple" type="radio" class="custom-control-input" checked>
+                        <span class="custom-control-indicator"></span>
+                        <span class="custom-control-description">Choix unique</span>
+                      </label>
+                      <label class="custom-control custom-radio">
+                        <input id="radio2" name="choix_multiple" type="radio" class="custom-control-input">
+                        <span class="custom-control-indicator"></span>
+                        <span class="custom-control-description">Choix multiple</span>
+                      </label>
+                    </div> 
+                <div>
+                    <button type="submit" class="btn btn-danger">VALIDER</button> 
+                </div>  
+            </from>
+    </section> 
+    <footer>
+    </footer>  
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+  </body>
+</html>
