@@ -17,6 +17,11 @@ namespace Simpoll.Controllers
             return View("Index");
         }
 
+        public ActionResult CreationUtilisateur()
+        {
+            return View("page_creation_utilisateur");
+        }
+
         public ActionResult CreationSondage(int IdCreateur, string question, string choix1, string choix2, string choix3, string typeChoix)
         {
             bool choix_multiple = false;
@@ -48,6 +53,7 @@ namespace Simpoll.Controllers
             foreach(var reponse in mesReponses)
             {
                 InsererReponseEnBdd(reponse);
+                newSondage.ReponseSondage.Add(reponse);
             }
 
             if (typeChoix == "choix_unique")
@@ -58,12 +64,6 @@ namespace Simpoll.Controllers
             {
                 return View("page_url", newSondage);
             }
-
-        }
-
-        public ActionResult CreationUtilisateur()
-        {
-            return View("page_creation_utilisateur");
         }
 
         public ActionResult RecupInfoUser(string nomCreateur, string prenomCreateur, string emailCreateur)
@@ -121,6 +121,31 @@ namespace Simpoll.Controllers
             connexion.Close();
 
             return IdReponse;
+        }
+        public List<Reponse> RecupererReponseByID(int IdSondage)
+        {
+            List<Reponse> mesReponse = new List<Reponse>();
+            SqlConnection connexion = new SqlConnection(SqlConnectionString);
+            connexion.Open();
+
+            SqlCommand maCommande = new SqlCommand("SELECT * FROM Reponse WHERE FKIdSondage=@id_sondage", connexion);
+            maCommande.Parameters.AddWithValue("@id_sondage", IdSondage);
+            SqlDataReader monReader = maCommande.ExecuteReader();
+
+            string choixReponse = "";
+            int nbVotant = 0;
+
+            while (monReader.Read())
+            {
+                choixReponse = (string)monReader["IntituleReponse"];
+                nbVotant = (int)monReader["NbVoteReponse"];
+                Reponse maReponse = new Reponse(choixReponse, nbVotant);
+                mesReponse.Add(maReponse);
+            }
+
+            connexion.Close();
+
+            return mesReponse;
         }
     }
 }

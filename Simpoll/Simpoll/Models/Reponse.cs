@@ -12,10 +12,16 @@ namespace Simpoll.Models
         public int NbVoteReponse { get; set; }
         public int FKIdSondage { get; set; }
 
-        public Reponse(string choixReponse, int idSondage)
+        public Reponse(string choixReponse)
         {
             this.IntituleReponse = choixReponse;
             this.NbVoteReponse = 0;
+        }
+
+        public Reponse(string choixReponse, int nbVoteReponse)
+        {
+            this.IntituleReponse = choixReponse;
+            this.NbVoteReponse = NbVoteReponse;
         }
 
         public Reponse(int idSondage)
