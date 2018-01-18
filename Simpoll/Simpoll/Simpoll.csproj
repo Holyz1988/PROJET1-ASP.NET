@@ -131,6 +131,7 @@
     <Compile Include="Models\Createur.cs" />
     <Compile Include="Models\Reponse.cs" />
     <Compile Include="Models\Sondage.cs" />
+    <Compile Include="Models\SondageAvecReponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

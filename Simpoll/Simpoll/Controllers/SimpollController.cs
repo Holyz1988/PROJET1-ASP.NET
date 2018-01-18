@@ -53,7 +53,6 @@ namespace Simpoll.Controllers
             foreach(var reponse in mesReponses)
             {
                 InsererReponseEnBdd(reponse);
-                newSondage.ReponseSondage.Add(reponse);
             }
 
             if (typeChoix == "choix_unique")
