@@ -21,7 +21,7 @@ namespace Simpoll.Models
         public Reponse(int idReponse, string choixReponse, int nbVoteReponse, int fkIdSondage)
         {
             this.IntituleReponse = choixReponse;
-            this.NbVoteReponse = NbVoteReponse;
+            this.NbVoteReponse = nbVoteReponse;
             this.IdReponse = idReponse;
             this.FKIdSondage = fkIdSondage;
         }

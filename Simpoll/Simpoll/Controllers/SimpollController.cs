@@ -103,7 +103,7 @@ namespace Simpoll.Controllers
 
             Sondage monSondage = GetSondageById(idSondage);
             SondageAvecReponse monSondageVote = new SondageAvecReponse(monSondage, mesReponse);
-
+            
             return View("page_creation_utilisateur");
         }
 
@@ -156,7 +156,7 @@ namespace Simpoll.Controllers
 
             return IdReponse;
         }
-
+        
         public List<Reponse> GetAllReponseByID(int IdSondage)
         {
             List<Reponse> mesReponse = new List<Reponse>();
