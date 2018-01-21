@@ -144,7 +144,8 @@
     <Content Include="Views\Simpoll\Index.cshtml" />
     <Content Include="Views\Simpoll\page_creation_utilisateur.cshtml" />
     <Content Include="Views\Simpoll\page_url.cshtml" />
-    <Content Include="Views\Simpoll\vote.cshtml" />
+    <Content Include="Views\Simpoll\vote_choix_unique.cshtml" />
+    <Content Include="Views\Simpoll\vote_choix_multiple.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

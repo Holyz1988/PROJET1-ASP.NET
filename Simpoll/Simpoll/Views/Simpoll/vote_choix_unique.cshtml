@@ -51,16 +51,16 @@
                     foreach (var reponse in Model.MesReponses)
                     {
 
-                <div class="form-group ">
-                    <label></label><input name="choixReponse" type="radio" value=@(choix + i) id=@(choix + i)>
-                    <label for=@(choix + i)>@reponse.IntituleReponse</label>
-                </div>
-                i++;
-                }
+                        <div class="form-group ">
+                            <label></label><input name="choixReponse" type="radio" value=@(choix + i) id=@(choix + i)>
+                            <label for=@(choix + i)>@reponse.IntituleReponse</label>
+                        </div>
+                         i++;
+                    }
              }
-                <div>
-                    <button type="submit" class="btn btn-danger">VALIDER</button>
-                </div>
+            <div>
+                <button type="submit" class="btn btn-danger">VALIDER</button>
+            </div>
         </form>
         </div>
     </section>

@@ -77,7 +77,15 @@ namespace Simpoll.Controllers
 
             SondageAvecReponse SondageComplet = new SondageAvecReponse(monSondage, mesReponse);
 
-            return View("vote", SondageComplet);
+            if(!monSondage.ChoixMultiple)
+            {
+                return View("vote_choix_unique", SondageComplet);
+            }
+            else
+            {
+                return View("vote_choix_multiple", SondageComplet);
+            }
+
         }
 
         public ActionResult VoteSondage(string choixReponse, int idSondage)
@@ -102,6 +110,10 @@ namespace Simpoll.Controllers
             }
 
             Sondage monSondage = GetSondageById(idSondage);
+
+            monSondage.NbVotant++;
+            UpdateNombreVotant(monSondage);
+
             SondageAvecReponse monSondageVote = new SondageAvecReponse(monSondage, mesReponse);
             
             return View("page_creation_utilisateur");
@@ -231,7 +243,7 @@ namespace Simpoll.Controllers
             maCommande.Parameters.AddWithValue("@url_partage", unSondage.UrlPartage);
             maCommande.Parameters.AddWithValue("@url_suppression", unSondage.UrlSuppression);
             maCommande.Parameters.AddWithValue("@url_resultat", unSondage.UrlResultat);
-            maCommande.Parameters.AddWithValue("@id_sondage", unSondage.IdSondage);
+            maCommande.Parameters.AddWithValue("@id_sondage", idSondage);
             maCommande.ExecuteNonQuery();
 
             connection.Close();
@@ -245,6 +257,19 @@ namespace Simpoll.Controllers
             SqlCommand maCommande = new SqlCommand(@"UPDATE Reponse SET NbVoteReponse = @nb_vote WHERE IdReponse = @id_reponse", connection);
             maCommande.Parameters.AddWithValue("@nb_vote", reponse.NbVoteReponse);
             maCommande.Parameters.AddWithValue("@id_reponse", reponse.IdReponse);
+            maCommande.ExecuteNonQuery();
+
+            connection.Close();
+        }
+
+        public void UpdateNombreVotant(Sondage unSondage)
+        {
+            SqlConnection connection = new SqlConnection(SqlConnectionString);
+            connection.Open();
+
+            SqlCommand maCommande = new SqlCommand(@"UPDATE Sondage SET NbVotant = @nb_votant WHERE IdSondage = @id_sondage", connection);
+            maCommande.Parameters.AddWithValue("@nb_votant", unSondage.NbVotant);
+            maCommande.Parameters.AddWithValue("@id_sondage", unSondage.IdSondage);
             maCommande.ExecuteNonQuery();
 
             connection.Close();
