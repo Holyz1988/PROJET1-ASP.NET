@@ -18,15 +18,19 @@ namespace Simpoll.Models
             this.NbVoteReponse = 0;
         }
 
-        public Reponse(string choixReponse, int nbVoteReponse)
+        public Reponse(int idReponse, string choixReponse, int nbVoteReponse, int fkIdSondage)
         {
             this.IntituleReponse = choixReponse;
             this.NbVoteReponse = NbVoteReponse;
+            this.IdReponse = idReponse;
+            this.FKIdSondage = fkIdSondage;
         }
 
-        public Reponse(int idSondage)
+        public Reponse(int idSondage, string choixReponse)
         {
             this.FKIdSondage = idSondage;
+            this.IntituleReponse = choixReponse;
+            this.NbVoteReponse = 0;
         }
     }
 }

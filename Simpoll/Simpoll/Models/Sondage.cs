@@ -10,20 +10,30 @@ namespace Simpoll.Models
         public int IdSondage { get; set; }
         public string QuestionSondage { get; set; }
         public bool ChoixMultiple { get; set; }
-        public List<Reponse> ReponseSondage;
-        /*
+        public List<Reponse> reponseSondage { get; set; }
         public string UrlPartage { get; set; }
         public string UrlSuppression { get; set; }
         public string UrlResultat { get; set; }
-        */
         public int NbVotant { get; set; }
         public int FKIdCreateur { get; set; }
 
-        public Sondage(string QuestionSondage, bool ChoixMultiple, int FKIdCreateur)
+        public Sondage(int idSondage, string questionSondage, bool choixMultiple, string urlPartage, string urlSuppression, string urlResultat, int nbVotant, int fkIdCreateur)
         {
-            this.QuestionSondage = QuestionSondage;
-            this.ChoixMultiple = ChoixMultiple;
-            this.FKIdCreateur = FKIdCreateur;
+            this.IdSondage = idSondage;
+            this.QuestionSondage = questionSondage;
+            this.ChoixMultiple = choixMultiple;
+            this.UrlPartage = urlPartage;
+            this.UrlSuppression = urlSuppression;
+            this.UrlResultat = urlResultat;
+            this.NbVotant = nbVotant;
+            this.FKIdCreateur = fkIdCreateur;
+        }
+
+        public Sondage(string questionSondage, bool choixMultiple, int fkIdCreateur)
+        {
+            this.QuestionSondage = questionSondage;
+            this.ChoixMultiple = choixMultiple;
+            this.FKIdCreateur = fkIdCreateur;
             this.NbVotant = 0;
         }
 

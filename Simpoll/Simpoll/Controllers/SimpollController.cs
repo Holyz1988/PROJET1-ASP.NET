@@ -22,7 +22,7 @@ namespace Simpoll.Controllers
             return View("page_creation_utilisateur");
         }
 
-        public ActionResult CreationSondage(int IdCreateur, string question, string choix1, string choix2, string choix3, string typeChoix)
+        public ActionResult CreationSondage(int idCreateur, string question, string choix1, string choix2, string choix3, string typeChoix)
         {
             bool choix_multiple = false;
 
@@ -35,16 +35,20 @@ namespace Simpoll.Controllers
                 choix_multiple = true;
             }
 
-            Sondage newSondage = new Sondage(question, choix_multiple, IdCreateur);
-            int IDSondage = InsererSondageEnBdd(newSondage);
+            Sondage newSondage = new Sondage(question, choix_multiple, idCreateur);
+            int idSondage = InsertSondage(newSondage);
+
+            newSondage.UrlPartage = @"localhost:8870/Simpoll/Vote?idSondage=" + Convert.ToString(idSondage);
+            newSondage.UrlSuppression = @"localhost:8870/Simpoll/Suppression?idSondage=" + Convert.ToString(idSondage);
+            newSondage.UrlResultat = @"localhost:8870/Simpoll/Resultat?idSondage=" + Convert.ToString(idSondage);
+
+
+            UpdateSondage(newSondage, idSondage);
 
             List<Reponse> mesReponses = new List<Reponse>();
-            Reponse maReponse1 = new Reponse(IDSondage);
-            maReponse1.IntituleReponse = choix1;
-            Reponse maReponse2 = new Reponse(IDSondage);
-            maReponse2.IntituleReponse = choix2;
-            Reponse maReponse3 = new Reponse(IDSondage);
-            maReponse3.IntituleReponse = choix3;
+            Reponse maReponse1 = new Reponse(idSondage, choix1);
+            Reponse maReponse2 = new Reponse(idSondage, choix2);
+            Reponse maReponse3 = new Reponse(idSondage, choix3);
 
             mesReponses.Add(maReponse1);
             mesReponses.Add(maReponse2);
@@ -52,27 +56,58 @@ namespace Simpoll.Controllers
 
             foreach(var reponse in mesReponses)
             {
-                InsererReponseEnBdd(reponse);
+                InsertReponse(reponse);
             }
 
-            if (typeChoix == "choix_unique")
-            {
-                return View("page_url", newSondage);
-            }
-            else
-            {
-                return View("page_url", newSondage);
-            }
+            return View("page_url", newSondage);
+
         }
 
         public ActionResult RecupInfoUser(string nomCreateur, string prenomCreateur, string emailCreateur)
         {
             Createur monCreateur = new Createur(nomCreateur, prenomCreateur, emailCreateur);
-            monCreateur.IdCreateur = InsererUtilisateurEnBdd(monCreateur);
+            monCreateur.IdCreateur = InsertUser(monCreateur);
             return View("Index", monCreateur);
         }
 
-        public int InsererUtilisateurEnBdd(Createur unCreateur)
+        public ActionResult Vote(int idSondage)
+        {
+            Sondage monSondage = GetSondageById(idSondage);
+            List<Reponse> mesReponse = GetAllReponseByID(idSondage);
+
+            SondageAvecReponse SondageComplet = new SondageAvecReponse(monSondage, mesReponse);
+
+            return View("vote", SondageComplet);
+        }
+
+        public ActionResult VoteSondage(string choixReponse, int idSondage)
+        {
+            List<Reponse> mesReponse = GetAllReponseByID(idSondage);
+            switch(choixReponse)
+            {
+                case "choix1":
+                    mesReponse[0].NbVoteReponse++;
+                    UpdateNombreVoteReponse(mesReponse[0]);
+                    break;
+                case "choix2":
+                    mesReponse[1].NbVoteReponse++;
+                    UpdateNombreVoteReponse(mesReponse[1]);
+                    break;
+                case "choix3":
+                    mesReponse[2].NbVoteReponse++;
+                    UpdateNombreVoteReponse(mesReponse[2]);
+                    break;
+                default:
+                    break;
+            }
+
+            Sondage monSondage = GetSondageById(idSondage);
+            SondageAvecReponse monSondageVote = new SondageAvecReponse(monSondage, mesReponse);
+
+            return View("page_creation_utilisateur");
+        }
+
+        public int InsertUser(Createur unCreateur)
         {
             SqlConnection connexion = new SqlConnection(SqlConnectionString);
             connexion.Open();
@@ -88,7 +123,7 @@ namespace Simpoll.Controllers
             return IdCreateur;
         }
 
-        public int InsererSondageEnBdd(Sondage unSondage)
+        public int InsertSondage(Sondage unSondage)
         {
             SqlConnection connexion = new SqlConnection(SqlConnectionString);
             connexion.Open();
@@ -106,7 +141,7 @@ namespace Simpoll.Controllers
             return IdSondage;
         }
 
-        public int InsererReponseEnBdd(Reponse maReponse)
+        public int InsertReponse(Reponse maReponse)
         {
             SqlConnection connexion = new SqlConnection(SqlConnectionString);
             connexion.Open();
@@ -121,30 +156,98 @@ namespace Simpoll.Controllers
 
             return IdReponse;
         }
-        public List<Reponse> RecupererReponseByID(int IdSondage)
+
+        public List<Reponse> GetAllReponseByID(int IdSondage)
         {
             List<Reponse> mesReponse = new List<Reponse>();
             SqlConnection connexion = new SqlConnection(SqlConnectionString);
             connexion.Open();
 
-            SqlCommand maCommande = new SqlCommand("SELECT * FROM Reponse WHERE FKIdSondage=@id_sondage", connexion);
+            SqlCommand maCommande = new SqlCommand(@"SELECT * FROM Reponse WHERE FKIdSondage=@id_sondage", connexion);
             maCommande.Parameters.AddWithValue("@id_sondage", IdSondage);
             SqlDataReader monReader = maCommande.ExecuteReader();
 
+            int idReponse = 0;
             string choixReponse = "";
             int nbVotant = 0;
+            int fkId = 0;
 
             while (monReader.Read())
             {
+                idReponse = Convert.ToInt32(monReader["IdReponse"]);
                 choixReponse = (string)monReader["IntituleReponse"];
                 nbVotant = (int)monReader["NbVoteReponse"];
-                Reponse maReponse = new Reponse(choixReponse, nbVotant);
+                fkId = Convert.ToInt32(monReader["FKIdSondage"]);
+                Reponse maReponse = new Reponse(idReponse, choixReponse, nbVotant, fkId);
                 mesReponse.Add(maReponse);
             }
 
             connexion.Close();
 
             return mesReponse;
+        }
+
+        public Sondage GetSondageById(int idSondage)
+        {
+            SqlConnection connection = new SqlConnection(SqlConnectionString);
+            connection.Open();
+
+            SqlCommand maCommande = new SqlCommand(@"SELECT * FROM Sondage WHERE IdSondage=@id_sondage", connection);
+            maCommande.Parameters.AddWithValue("@id_sondage", idSondage);
+            SqlDataReader monReader = maCommande.ExecuteReader();
+
+            int id = 0;
+            string questionSondage = "";
+            bool choixMultiple = true;
+            string urlPartage = "";
+            string urlSuppression = "";
+            string urlResultat = "";
+            int nbVotant = 0;
+            int fkIdCreateur = 0;
+
+            monReader.Read();
+
+            id = (int)monReader["IdSondage"];
+            questionSondage = (string)monReader["QuestionSondage"];
+            choixMultiple = (bool)monReader["ChoixMultiple"];
+            urlPartage = Convert.ToString(monReader["UrlPartage"]);
+            urlSuppression = Convert.ToString(monReader["UrlSuppression"]);
+            urlResultat = Convert.ToString(monReader["UrlResultat"]);
+            nbVotant = Convert.ToInt32(monReader["NbVotant"]);
+            fkIdCreateur = Convert.ToInt32(monReader["FKIdCreateur"]);
+            Sondage monSondage = new Sondage(id, questionSondage, choixMultiple, urlPartage, urlSuppression, urlResultat, nbVotant, fkIdCreateur);
+
+            connection.Close();
+
+            return monSondage;
+        }
+
+        public void UpdateSondage(Sondage unSondage, int idSondage)
+        {
+            SqlConnection connection = new SqlConnection(SqlConnectionString);
+            connection.Open();
+
+            SqlCommand maCommande = new SqlCommand(@"UPDATE Sondage SET UrlPartage=@url_partage, UrlSuppression=@url_suppression, UrlResultat=@url_resultat WHERE IdSondage=@id_sondage", connection);
+            maCommande.Parameters.AddWithValue("@url_partage", unSondage.UrlPartage);
+            maCommande.Parameters.AddWithValue("@url_suppression", unSondage.UrlSuppression);
+            maCommande.Parameters.AddWithValue("@url_resultat", unSondage.UrlResultat);
+            maCommande.Parameters.AddWithValue("@id_sondage", unSondage.IdSondage);
+            maCommande.ExecuteNonQuery();
+
+            connection.Close();
+        }
+
+        public void UpdateNombreVoteReponse(Reponse reponse)
+        {
+            SqlConnection connection = new SqlConnection(SqlConnectionString);
+            connection.Open();
+
+            SqlCommand maCommande = new SqlCommand(@"UPDATE Reponse SET NbVoteReponse = @nb_vote WHERE IdReponse = @id_reponse", connection);
+            maCommande.Parameters.AddWithValue("@nb_vote", reponse.NbVoteReponse);
+            maCommande.Parameters.AddWithValue("@id_reponse", reponse.IdReponse);
+            maCommande.ExecuteNonQuery();
+
+            connection.Close();
         }
     }
 }

@@ -7,13 +7,13 @@ namespace Simpoll.Models
 {
     public class SondageAvecReponse
     {
-        public string Question { get; set; }
-        public List<Reponse> mesReponses { get; set; }
+        public Sondage Sondage { get; set; }
+        public List<Reponse> MesReponses { get; set; }
 
-        public SondageAvecReponse(string question, List<Reponse> mesReponses)
+        public SondageAvecReponse(Sondage sondage, List<Reponse> mesReponses)
         {
-            this.Question = question;
-            this.mesReponses = mesReponses;
+            this.Sondage = sondage;
+            this.MesReponses = mesReponses;
         }
     }
 }

@@ -24,6 +24,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -143,6 +144,7 @@
     <Content Include="Views\Simpoll\Index.cshtml" />
     <Content Include="Views\Simpoll\page_creation_utilisateur.cshtml" />
     <Content Include="Views\Simpoll\page_url.cshtml" />
+    <Content Include="Views\Simpoll\vote.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
