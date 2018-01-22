@@ -9,7 +9,7 @@ namespace Simpoll.Models
     public class DAL
     {
         private const string SqlConnectionString = @"Server=.\SQLExpress;Initial Catalog=Simpoll; Trusted_Connection=Yes";
-        public static int AddUser(Createur unCreateur)
+        public static int AddUtilisateur(Createur unCreateur)
         {
             SqlConnection connexion = new SqlConnection(SqlConnectionString);
             connexion.Open();
@@ -24,7 +24,6 @@ namespace Simpoll.Models
 
             return IdCreateur;
         }
-
         public static int AddSondage(Sondage unSondage)
         {
             SqlConnection connexion = new SqlConnection(SqlConnectionString);
@@ -42,7 +41,6 @@ namespace Simpoll.Models
 
             return IdSondage;
         }
-
         public static int AddReponse(Reponse maReponse)
         {
             SqlConnection connexion = new SqlConnection(SqlConnectionString);
@@ -58,7 +56,6 @@ namespace Simpoll.Models
 
             return IdReponse;
         }
-
         public static List<Reponse> GetAllReponse(int IdSondage)
         {
             List<Reponse> mesReponse = new List<Reponse>();
@@ -88,7 +85,6 @@ namespace Simpoll.Models
 
             return mesReponse;
         }
-
         public static Sondage GetSondageById(int idSondage)
         {
             SqlConnection connection = new SqlConnection(SqlConnectionString);
@@ -123,7 +119,6 @@ namespace Simpoll.Models
 
             return monSondage;
         }
-
         public static void UpdateSondage(Sondage unSondage, int idSondage)
         {
             SqlConnection connection = new SqlConnection(SqlConnectionString);
@@ -138,7 +133,6 @@ namespace Simpoll.Models
 
             connection.Close();
         }
-
         public static void UpdateNombreVoteReponse(Reponse reponse)
         {
             SqlConnection connection = new SqlConnection(SqlConnectionString);
@@ -151,7 +145,6 @@ namespace Simpoll.Models
 
             connection.Close();
         }
-
         public static void UpdateNombreVotant(Sondage unSondage)
         {
             SqlConnection connection = new SqlConnection(SqlConnectionString);

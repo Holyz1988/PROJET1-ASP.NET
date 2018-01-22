@@ -7,15 +7,15 @@ namespace Simpoll.Models
 {
     public class Sondage
     {
-        public int IdSondage { get; set; }
-        public string QuestionSondage { get; set; }
-        public bool ChoixMultiple { get; set; }
+        public int IdSondage { get; private set; }
+        public string QuestionSondage { get; private set; }
+        public bool ChoixMultiple { get; private set; }
         public List<Reponse> reponseSondage { get; set; } // Aucune utilisation actuelle
         public string UrlPartage { get; set; }
         public string UrlSuppression { get; set; }
         public string UrlResultat { get; set; }
         public int NbVotant { get; set; }
-        public int FKIdCreateur { get; set; }
+        public int FKIdCreateur { get; private set; }
 
         public Sondage(int idSondage, string questionSondage, bool choixMultiple, string urlPartage, string urlSuppression, string urlResultat, int nbVotant, int fkIdCreateur)
         {

@@ -52,12 +52,15 @@
                     {
 
                         <div class="form-group ">
-                            <label></label><input name="@(choix + i)" type="checkbox" value="false" id="@(choix + i)" >
+                            <input name="@(choix + i)" type="checkbox" value="false" id="@(choix + i)" >
                             <label for=@(choix + i)>@reponse.IntituleReponse</label>
                         </div>
                         i++;
                     }
                 }
+                <div>
+                    <p class="p-3 mb-2 bg-primary text-white">Il y a @Model.Sondage.NbVotant personnes qui ont déjà participées</p>
+                </div>
                 <div>
                     <button type="submit" class="btn btn-danger">VALIDER</button>
                 </div>

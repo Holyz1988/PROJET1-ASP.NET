@@ -9,17 +9,14 @@ namespace Simpoll.Controllers
 {
     public class SimpollController : Controller
     {
-        private const string SqlConnectionString = @"Server=.\SQLExpress;Initial Catalog=Simpoll; Trusted_Connection=Yes";
         public ActionResult Index()
         {
             return View("Index");
         }
-
         public ActionResult CreationUtilisateur()
         {
             return View("page_creation_utilisateur");
         }
-
         public ActionResult CreationSondage(int idCreateur, string question, string choix1, string choix2, string choix3, string typeChoix)
         {
             bool choix_multiple = false;
@@ -60,14 +57,12 @@ namespace Simpoll.Controllers
             return View("page_url", newSondage);
 
         }
-
-        public ActionResult RecupInfoUser(string nomCreateur, string prenomCreateur, string emailCreateur)
+        public ActionResult RecupInfoUtilisateur(string nomCreateur, string prenomCreateur, string emailCreateur)
         {
             Createur monCreateur = new Createur(nomCreateur, prenomCreateur, emailCreateur);
-            monCreateur.IdCreateur = DAL.AddUser(monCreateur);
+            monCreateur.IdCreateur = DAL.AddUtilisateur(monCreateur);
             return View("Index", monCreateur);
         }
-
         public ActionResult Vote(int idSondage)
         {
             Sondage monSondage = DAL.GetSondageById(idSondage);
@@ -85,10 +80,11 @@ namespace Simpoll.Controllers
             }
 
         }
-
         public ActionResult VoteSondageUnique(string choixReponse, int idSondage)
         {
             List<Reponse> mesReponse = DAL.GetAllReponse(idSondage);
+
+            //On incrémente le compteur de la réponse qui à été choisi
             switch(choixReponse)
             {
                 case "choix1":
@@ -109,14 +105,14 @@ namespace Simpoll.Controllers
 
             Sondage monSondage = DAL.GetSondageById(idSondage);
 
+            //On incrémente le nombre de votant
             monSondage.NbVotant++;
             DAL.UpdateNombreVotant(monSondage);
 
             SondageAvecReponse monSondageVote = new SondageAvecReponse(monSondage, mesReponse);
             
-            return View("page_creation_utilisateur");
-        }
-        
+            return View("page_resultat", monSondageVote);
+        } 
         public ActionResult VoteSondageMultiple(bool? choixReponse1, bool? choixReponse2, bool? choixReponse3, int idSondage)
         {
             List<Reponse> mesReponse = DAL.GetAllReponse(idSondage);
@@ -145,13 +141,14 @@ namespace Simpoll.Controllers
 
             Sondage monSondage = DAL.GetSondageById(idSondage);
 
+            //On incrémente le nombre de votant
             monSondage.NbVotant++;
             DAL.UpdateNombreVotant(monSondage);
 
             SondageAvecReponse monSondageVote = new SondageAvecReponse(monSondage, mesReponse);
 
 
-            return View("page_creation_utilisateur");
+            return View("page_resultat", monSondageVote);
         }
         
     }
