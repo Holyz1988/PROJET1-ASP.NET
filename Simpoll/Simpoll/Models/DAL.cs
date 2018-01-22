@@ -9,6 +9,8 @@ namespace Simpoll.Models
     public class DAL
     {
         private const string SqlConnectionString = @"Server=.\SQLExpress;Initial Catalog=Simpoll; Trusted_Connection=Yes";
+
+        //Methode pour ajouter un utilisateur créateur de sondage en BDD
         public static int AddUtilisateur(Createur unCreateur)
         {
             SqlConnection connexion = new SqlConnection(SqlConnectionString);
@@ -24,6 +26,8 @@ namespace Simpoll.Models
 
             return IdCreateur;
         }
+
+        //Methode pour ajouter un sondage en BDD et recuperer l'ID de son createur
         public static int AddSondage(Sondage unSondage)
         {
             SqlConnection connexion = new SqlConnection(SqlConnectionString);
@@ -41,6 +45,8 @@ namespace Simpoll.Models
 
             return IdSondage;
         }
+
+        //methode pour ajouter les reponses d'un sondage en BDD
         public static int AddReponse(Reponse maReponse)
         {
             SqlConnection connexion = new SqlConnection(SqlConnectionString);
@@ -56,6 +62,8 @@ namespace Simpoll.Models
 
             return IdReponse;
         }
+
+        //Methode pour recuperer les reponses d'un sondage et en faire une liste
         public static List<Reponse> GetAllReponse(int IdSondage)
         {
             List<Reponse> mesReponse = new List<Reponse>();
@@ -85,6 +93,8 @@ namespace Simpoll.Models
 
             return mesReponse;
         }
+
+        //Methode pour recuperer les infos d'un sondage avec son ID
         public static Sondage GetSondageById(int idSondage)
         {
             SqlConnection connection = new SqlConnection(SqlConnectionString);
@@ -119,6 +129,8 @@ namespace Simpoll.Models
 
             return monSondage;
         }
+
+        //methode pour mettre a jour un sondage avec ses url aprés la creation du sondage
         public static void UpdateSondage(Sondage unSondage, int idSondage)
         {
             SqlConnection connection = new SqlConnection(SqlConnectionString);
@@ -133,6 +145,8 @@ namespace Simpoll.Models
 
             connection.Close();
         }
+
+        //methode pour mettre a jour le nombre de vote par reponses aprés chaque vote
         public static void UpdateNombreVoteReponse(Reponse reponse)
         {
             SqlConnection connection = new SqlConnection(SqlConnectionString);
@@ -145,6 +159,8 @@ namespace Simpoll.Models
 
             connection.Close();
         }
+
+        //methode pour mettre a jour le nombre de votant d'un sondage
         public static void UpdateNombreVotant(Sondage unSondage)
         {
             SqlConnection connection = new SqlConnection(SqlConnectionString);
