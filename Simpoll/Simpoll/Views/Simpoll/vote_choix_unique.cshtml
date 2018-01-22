@@ -43,7 +43,7 @@
             <h1>@Model.Sondage.QuestionSondage</h1>
         </div>
         <div class="container">
-        <form action="VoteSondage" method="post">
+        <form action="VoteSondageUnique" method="post">
             <input type="hidden" name="idSondage" value="@Model.Sondage.IdSondage" />
             @{
                     int i = 1;

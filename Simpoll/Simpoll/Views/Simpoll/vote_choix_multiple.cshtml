@@ -43,7 +43,7 @@
             <h1>@Model.Sondage.QuestionSondage</h1>
         </div>
         <div class="container">
-            <form action="VoteSondage" method="post">
+            <form action="VoteSondageMultiple" method="post">
                 <input type="hidden" name="idSondage" value="@Model.Sondage.IdSondage" />
                 @{
                     int i = 1;
@@ -52,7 +52,7 @@
                     {
 
                         <div class="form-group ">
-                            <label></label><input name="@(choix + 1)" type="checkbox" value="false" id="@(choix + i)">
+                            <label></label><input name="@(choix + i)" type="checkbox" value="false" id="@(choix + i)" >
                             <label for=@(choix + i)>@reponse.IntituleReponse</label>
                         </div>
                         i++;

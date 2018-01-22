@@ -10,7 +10,7 @@ namespace Simpoll.Models
         public int IdSondage { get; set; }
         public string QuestionSondage { get; set; }
         public bool ChoixMultiple { get; set; }
-        public List<Reponse> reponseSondage { get; set; }
+        public List<Reponse> reponseSondage { get; set; } // Aucune utilisation actuelle
         public string UrlPartage { get; set; }
         public string UrlSuppression { get; set; }
         public string UrlResultat { get; set; }
@@ -34,11 +34,6 @@ namespace Simpoll.Models
             this.QuestionSondage = questionSondage;
             this.ChoixMultiple = choixMultiple;
             this.FKIdCreateur = fkIdCreateur;
-            this.NbVotant = 0;
-        }
-
-        public Sondage ()
-        {
             this.NbVotant = 0;
         }
     }

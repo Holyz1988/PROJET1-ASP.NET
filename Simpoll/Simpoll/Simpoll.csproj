@@ -130,6 +130,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Createur.cs" />
+    <Compile Include="Models\DAL.cs" />
     <Compile Include="Models\Reponse.cs" />
     <Compile Include="Models\Sondage.cs" />
     <Compile Include="Models\SondageAvecReponse.cs" />
@@ -146,6 +147,7 @@
     <Content Include="Views\Simpoll\page_url.cshtml" />
     <Content Include="Views\Simpoll\vote_choix_unique.cshtml" />
     <Content Include="Views\Simpoll\vote_choix_multiple.cshtml" />
+    <Content Include="Views\Shared\Error_choix_multiple.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
