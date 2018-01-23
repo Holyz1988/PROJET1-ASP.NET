@@ -30,32 +30,69 @@ namespace Simpoll.Controllers
                 choix_multiple = true;
             }
 
-            Sondage newSondage = new Sondage(question, choix_multiple, idCreateur);
-            int idSondage = DAL.AddSondage(newSondage);
+            ////////////////////////////////////////////////
+            //////Gestion de la saisie utilisateur//////////
+            //////contenu des unputs de choix////////////
+            ////////////////////////////////////////////////
+
+            if((choix1 == "") && (choix2 == "") && (choix3 == ""))
+            {
+                return View("erreur_zero_reponse");
+            }
+            else if (((choix1 == "") && (choix2 == "")) || ((choix1 == "") && (choix3 == "")) || ((choix2 == "") && (choix3 == "")))
+            {
+                return View("erreur_une_reponse");
+            }
+
+            ////////////////////////////////////////////////
+            //////Gestion de la saisie utilisateur//////////
+            //////contenu de l'input question////////////
+            ////////////////////////////////////////////////
+
+            if (question == "")
+            {
+                return View("erreur_question");
+            }
+
+            Guid guid = Guid.NewGuid();
+            string myGuid = Convert.ToString(guid);
+            
+            Sondage newSondage = new Sondage(question, choix_multiple, idCreateur, myGuid);
+            int idSondage = DAL.AddSondage(newSondage);     
 
             newSondage.UrlPartage = @"localhost:8870/Simpoll/Vote?idSondage=" + Convert.ToString(idSondage);
-            newSondage.UrlSuppression = @"localhost:8870/Simpoll/Suppression?idSondage=" + Convert.ToString(idSondage);
+            newSondage.UrlSuppression = @"localhost:8870/Simpoll/DesactiverSondage?myGuid=" + Convert.ToString(myGuid);
             newSondage.UrlResultat = @"localhost:8870/Simpoll/Resultat?idSondage=" + Convert.ToString(idSondage);
-
 
             DAL.UpdateSondage(newSondage, idSondage);
 
             List<Reponse> mesReponses = new List<Reponse>();
-            Reponse maReponse1 = new Reponse(idSondage, choix1);
-            Reponse maReponse2 = new Reponse(idSondage, choix2);
-            Reponse maReponse3 = new Reponse(idSondage, choix3);
-
-            mesReponses.Add(maReponse1);
-            mesReponses.Add(maReponse2);
-            mesReponses.Add(maReponse3);
+            if (choix1 != "")
+            {
+                Reponse maReponse1 = new Reponse(idSondage, choix1);
+                mesReponses.Add(maReponse1);
+            }
+            if(choix2 != "")
+            {
+                Reponse maReponse2 = new Reponse(idSondage, choix2);
+                mesReponses.Add(maReponse2);
+            }
+            if(choix3 != "")
+            {
+                Reponse maReponse3 = new Reponse(idSondage, choix3);
+                mesReponses.Add(maReponse3);
+            }
+            
+            
 
             foreach(var reponse in mesReponses)
             {
                 DAL.AddReponse(reponse);
             }
 
-            return View("page_url", newSondage);
+            newSondage = DAL.GetSondageById(idSondage);
 
+            return View("page_url", newSondage);
         }
         public ActionResult RecupInfoUtilisateur(string nomCreateur, string prenomCreateur, string emailCreateur)
         {
@@ -149,6 +186,21 @@ namespace Simpoll.Controllers
 
 
             return View("page_resultat", monSondageVote);
+        }
+        public ActionResult DesactiverSondage(string myGuid)
+        {
+            Sondage monSondage = DAL.GetSondageByGuid(myGuid);
+
+            if(monSondage.Actif)
+            {
+                monSondage.Actif = false;
+                DAL.DisableSondage(monSondage);
+                return View("disable_sondage");
+            }
+            else
+            {
+                return View("disabled_sondage");
+            }
         }
         
     }

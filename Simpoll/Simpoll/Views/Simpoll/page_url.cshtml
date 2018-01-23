@@ -63,9 +63,9 @@
                 </div>
             </div>
             <div>
-                <button type="button" class="btn btn-primary ">Votez</button>
-                <button type="button" class="btn btn-primary">Résultats</button>
-                <button type="button" class="btn btn-danger justify-content-end">Supprimer</button>
+                <a href="/Simpoll/Vote?idSondage=@Model.IdSondage" class="btn btn-primary" role="button">Votez</a>
+                <a href="/Simpoll/Resultat?idSondage=@Model.IdSondage" type="button" class="btn btn-primary" role="button">Résultats</a>
+                <a href="/Simpoll/DesactiverSondage?myGuid=@Model.Guid" class="btn btn-danger justify-content-end" role="button">Supprimer</a>
             </div>
     </section>
     <footer></footer>

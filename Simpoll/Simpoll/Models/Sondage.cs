@@ -16,8 +16,10 @@ namespace Simpoll.Models
         public string UrlResultat { get; set; }
         public int NbVotant { get; set; }
         public int FKIdCreateur { get; private set; }
+        public string Guid { get; set; }
+        public bool Actif { get; set; }
 
-        public Sondage(int idSondage, string questionSondage, bool choixMultiple, string urlPartage, string urlSuppression, string urlResultat, int nbVotant, int fkIdCreateur)
+        public Sondage(int idSondage, string questionSondage, bool choixMultiple, string urlPartage, string urlSuppression, string urlResultat, int nbVotant, int fkIdCreateur, string guid, bool actif)
         {
             this.IdSondage = idSondage;
             this.QuestionSondage = questionSondage;
@@ -27,13 +29,17 @@ namespace Simpoll.Models
             this.UrlResultat = urlResultat;
             this.NbVotant = nbVotant;
             this.FKIdCreateur = fkIdCreateur;
+            this.Guid = guid;
+            this.Actif = actif;
         }
 
-        public Sondage(string questionSondage, bool choixMultiple, int fkIdCreateur)
+        public Sondage(string questionSondage, bool choixMultiple, int fkIdCreateur, string myGuid)
         {
             this.QuestionSondage = questionSondage;
             this.ChoixMultiple = choixMultiple;
             this.FKIdCreateur = fkIdCreateur;
+            this.Guid = myGuid;
+            this.Actif = true;
             this.NbVotant = 0;
         }
     }

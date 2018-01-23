@@ -7,8 +7,8 @@ namespace Simpoll.Models
 {
     public class SondageAvecReponse
     {
-        public Sondage Sondage { get; set; }
-        public List<Reponse> MesReponses { get; set; }
+        public Sondage Sondage { get; private set; }
+        public List<Reponse> MesReponses { get; private set; }
 
         public SondageAvecReponse(Sondage sondage, List<Reponse> mesReponses)
         {
