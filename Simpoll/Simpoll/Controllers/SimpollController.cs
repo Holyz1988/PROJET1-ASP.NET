@@ -81,9 +81,7 @@ namespace Simpoll.Controllers
             {
                 Reponse maReponse3 = new Reponse(idSondage, choix3);
                 mesReponses.Add(maReponse3);
-            }
-            
-            
+            }           
 
             foreach(var reponse in mesReponses)
             {
