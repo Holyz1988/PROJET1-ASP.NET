@@ -142,7 +142,12 @@ namespace Simpoll.Models
             SqlConnection connection = new SqlConnection(SqlConnectionString);
             connection.Open();
 
-            SqlCommand maCommande = new SqlCommand(@"UPDATE Sondage SET UrlPartage=@url_partage, UrlSuppression=@url_suppression, UrlResultat=@url_resultat WHERE IdSondage=@id_sondage", connection);
+            SqlCommand maCommande = new SqlCommand(@"UPDATE Sondage 
+                                                     SET UrlPartage=@url_partage, 
+                                                         UrlSuppression=@url_suppression, 
+                                                         UrlResultat=@url_resultat 
+                                                     WHERE IdSondage=@id_sondage"
+                                                   , connection);
             maCommande.Parameters.AddWithValue("@url_partage", unSondage.UrlPartage);
             maCommande.Parameters.AddWithValue("@url_suppression", unSondage.UrlSuppression);
             maCommande.Parameters.AddWithValue("@url_resultat", unSondage.UrlResultat);

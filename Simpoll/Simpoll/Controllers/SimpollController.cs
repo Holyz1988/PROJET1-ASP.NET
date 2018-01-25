@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Simpoll.Models;
+using System.Web.
 
 namespace Simpoll.Controllers
 {
@@ -17,7 +18,7 @@ namespace Simpoll.Controllers
         {
             return View("page_creation_utilisateur");
         }
-        public ActionResult CreationSondage(int idCreateur, string question, string choix1, string choix2, string choix3, string typeChoix)
+        public ActionResult CreationSondage(int idCreateur, string question, List<string> choix, string typeChoix)
         {
             bool choix_multiple = false;
 
@@ -34,14 +35,10 @@ namespace Simpoll.Controllers
             //////Gestion de la saisie utilisateur//////////
             //////contenu des unputs de choix////////////
             ////////////////////////////////////////////////
-
-            if((choix1 == "") && (choix2 == "") && (choix3 == ""))
+            choix.RemoveAll(element => (string.IsNullOrEmpty(element)));           
+            if (choix.Count() < 2)
             {
                 return View("erreur_zero_reponse");
-            }
-            else if (((choix1 == "") && (choix2 == "")) || ((choix1 == "") && (choix3 == "")) || ((choix2 == "") && (choix3 == "")))
-            {
-                return View("erreur_une_reponse");
             }
 
             ////////////////////////////////////////////////
@@ -49,7 +46,7 @@ namespace Simpoll.Controllers
             //////contenu de l'input question////////////
             ////////////////////////////////////////////////
 
-            if (question == "")
+            if (string.IsNullOrEmpty(question))
             {
                 return View("erreur_question");
             }
@@ -67,30 +64,20 @@ namespace Simpoll.Controllers
             DAL.UpdateSondage(newSondage, idSondage);
 
             List<Reponse> mesReponses = new List<Reponse>();
-            if (choix1 != "")
+            foreach(var c in choix)
             {
-                Reponse maReponse1 = new Reponse(idSondage, choix1);
-                mesReponses.Add(maReponse1);
+                if(!(string.IsNullOrEmpty(c)))
+                {
+                    mesReponses.Add(new Reponse(idSondage, c));
+                }
             }
-            if(choix2 != "")
-            {
-                Reponse maReponse2 = new Reponse(idSondage, choix2);
-                mesReponses.Add(maReponse2);
-            }
-            if(choix3 != "")
-            {
-                Reponse maReponse3 = new Reponse(idSondage, choix3);
-                mesReponses.Add(maReponse3);
-            }           
 
             foreach(var reponse in mesReponses)
             {
                 DAL.AddReponse(reponse);
             }
-
-            newSondage = DAL.GetSondageById(idSondage);
-
-            return View("page_url", newSondage);
+            
+            return View("page_url", DAL.GetSondageById(idSondage));
         }
         public ActionResult RecupInfoUtilisateur(string nomCreateur, string prenomCreateur, string emailCreateur)
         {
