@@ -33,7 +33,9 @@ namespace Simpoll.Models
             SqlConnection connexion = new SqlConnection(SqlConnectionString);
             connexion.Open();
 
-            SqlCommand maCommande = new SqlCommand(@"INSERT INTO Sondage(QuestionSondage, ChoixMultiple, NbVotant, FKIdCreateur, Guid, Actif) VALUES (@question, @choix_multiple, @nb_votant, @FK_idCreateur, @my_guid, @actif); SELECT SCOPE_IDENTITY()", connexion);
+            SqlCommand maCommande = new SqlCommand(@"INSERT INTO Sondage(QuestionSondage, ChoixMultiple, NbVotant, FKIdCreateur, Guid, Actif) " +
+                                                     "VALUES (@question, @choix_multiple, @nb_votant, @FK_idCreateur, @my_guid, @actif); " +
+                                                     "SELECT SCOPE_IDENTITY()", connexion);
             maCommande.Parameters.AddWithValue("@question", unSondage.QuestionSondage);
             maCommande.Parameters.AddWithValue("@choix_multiple", unSondage.ChoixMultiple);
             maCommande.Parameters.AddWithValue("@nb_votant", unSondage.NbVotant);
@@ -54,7 +56,9 @@ namespace Simpoll.Models
             SqlConnection connexion = new SqlConnection(SqlConnectionString);
             connexion.Open();
 
-            SqlCommand maCommande = new SqlCommand("INSERT INTO Reponse(IntituleReponse, NbVoteReponse, FKIdSondage) VALUES (@choix, @nb_vote_reponse, @FK_idSondage); SELECT SCOPE_IDENTITY()", connexion);
+            SqlCommand maCommande = new SqlCommand("INSERT INTO Reponse(IntituleReponse, NbVoteReponse, FKIdSondage) " +
+                                                   "VALUES (@choix, @nb_vote_reponse, @FK_idSondage); " +
+                                                   "SELECT SCOPE_IDENTITY()", connexion);
             maCommande.Parameters.AddWithValue("@choix", maReponse.IntituleReponse);
             maCommande.Parameters.AddWithValue("@nb_vote_reponse", maReponse.NbVoteReponse);
             maCommande.Parameters.AddWithValue("@FK_idSondage", maReponse.FKIdSondage);
@@ -72,7 +76,9 @@ namespace Simpoll.Models
             SqlConnection connexion = new SqlConnection(SqlConnectionString);
             connexion.Open();
 
-            SqlCommand maCommande = new SqlCommand(@"SELECT * FROM Reponse WHERE FKIdSondage=@id_sondage", connexion);
+            SqlCommand maCommande = new SqlCommand(@"SELECT * " +
+                                                    "FROM Reponse " +
+                                                    "WHERE FKIdSondage=@id_sondage", connexion);
             maCommande.Parameters.AddWithValue("@id_sondage", IdSondage);
             SqlDataReader monReader = maCommande.ExecuteReader();
 
@@ -102,33 +108,24 @@ namespace Simpoll.Models
             SqlConnection connection = new SqlConnection(SqlConnectionString);
             connection.Open();
 
-            SqlCommand maCommande = new SqlCommand(@"SELECT * FROM Sondage WHERE IdSondage=@id_sondage", connection);
+            SqlCommand maCommande = new SqlCommand(@"SELECT * " +
+                                                    "FROM Sondage " +
+                                                    "WHERE IdSondage=@id_sondage", connection);
             maCommande.Parameters.AddWithValue("@id_sondage", idSondage);
             SqlDataReader monReader = maCommande.ExecuteReader();
 
-            int id = 0;
-            string questionSondage = "";
-            bool choixMultiple = true;
-            string urlPartage = "";
-            string urlSuppression = "";
-            string urlResultat = "";
-            int nbVotant = 0;
-            int fkIdCreateur = 0;
-            string guid = "";
-            bool actif = true;
-
             monReader.Read();
 
-            id = Convert.ToInt32(monReader["IdSondage"]);
-            questionSondage = (string)monReader["QuestionSondage"];
-            choixMultiple = (bool)monReader["ChoixMultiple"];
-            urlPartage = Convert.ToString(monReader["UrlPartage"]);
-            urlSuppression = Convert.ToString(monReader["UrlSuppression"]);
-            urlResultat = Convert.ToString(monReader["UrlResultat"]);
-            nbVotant = Convert.ToInt32(monReader["NbVotant"]);
-            fkIdCreateur = Convert.ToInt32(monReader["FKIdCreateur"]);
-            guid = Convert.ToString(monReader["Guid"]);
-            actif = Convert.ToBoolean(monReader["Actif"]);
+            int id = Convert.ToInt32(monReader["IdSondage"]);
+            string questionSondage = (string)monReader["QuestionSondage"];
+            bool choixMultiple = (bool)monReader["ChoixMultiple"];
+            string urlPartage = Convert.ToString(monReader["UrlPartage"]);
+            string urlSuppression = Convert.ToString(monReader["UrlSuppression"]);
+            string urlResultat = Convert.ToString(monReader["UrlResultat"]);
+            int nbVotant = Convert.ToInt32(monReader["NbVotant"]);
+            int fkIdCreateur = Convert.ToInt32(monReader["FKIdCreateur"]);
+            string guid = Convert.ToString(monReader["Guid"]);
+            bool actif = Convert.ToBoolean(monReader["Actif"]);
             Sondage monSondage = new Sondage(id, questionSondage, choixMultiple, urlPartage, urlSuppression, urlResultat, nbVotant, fkIdCreateur, guid, actif);
 
             connection.Close();

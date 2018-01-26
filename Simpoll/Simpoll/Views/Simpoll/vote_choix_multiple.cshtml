@@ -46,14 +46,14 @@
             <form action="VoteSondageMultiple" method="post">
                 <input type="hidden" name="idSondage" value="@Model.Sondage.IdSondage" />
                 @{
-                    int i = 1;
-                    string choix = "choixReponse";
+                    int i = 0;
                     foreach (var reponse in Model.MesReponses)
                     {
 
                         <div class="form-group ">
-                            <input name="@(choix + i)" type="checkbox" value="false" id="@(choix + i)" >
-                            <label for=@(choix + i)>@reponse.IntituleReponse</label>
+                            <input name="choixReponse[@i]" type="checkbox" value="true" id="choixReponse[@i]" />
+                            <input type="hidden" value="false" name="choixReponse[@i]" />
+                            <label for=choixReponse[@i]>@reponse.IntituleReponse</label>
                         </div>
                         i++;
                     }

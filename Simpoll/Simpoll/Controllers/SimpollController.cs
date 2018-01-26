@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Simpoll.Models;
-using System.Web.
+using System.Web.UI.WebControls;
 
 namespace Simpoll.Controllers
 {
@@ -14,56 +14,52 @@ namespace Simpoll.Controllers
         {
             return View("Index");
         }
+
         public ActionResult CreationUtilisateur()
         {
             return View("page_creation_utilisateur");
         }
+
         public ActionResult CreationSondage(int idCreateur, string question, List<string> choix, string typeChoix)
         {
             bool choix_multiple = false;
 
-            if (typeChoix == "choix_unique")
-            {
-                choix_multiple = false;
-            }
-            else
+            if (typeChoix == "choix_multiple")
             {
                 choix_multiple = true;
             }
 
-            ////////////////////////////////////////////////
-            //////Gestion de la saisie utilisateur//////////
-            //////contenu des unputs de choix////////////
-            ////////////////////////////////////////////////
+
+            //Gestion de la saisie utilisateur
             choix.RemoveAll(element => (string.IsNullOrEmpty(element)));           
-            if (choix.Count() < 2)
+            if (choix.Count() < 2) // l'utilisateur dois saisir au moins deux choix de reponses
             {
+                //On renvoit une exception ?
                 return View("erreur_zero_reponse");
             }
-
-            ////////////////////////////////////////////////
-            //////Gestion de la saisie utilisateur//////////
-            //////contenu de l'input question////////////
-            ////////////////////////////////////////////////
-
-            if (string.IsNullOrEmpty(question))
+            
+            if (string.IsNullOrEmpty(question)) // L'utilisateur doit saisir la question
             {
                 return View("erreur_question");
             }
 
+            //On crée un ID unique que l'on rentre en DB
             Guid guid = Guid.NewGuid();
             string myGuid = Convert.ToString(guid);
-            
             Sondage newSondage = new Sondage(question, choix_multiple, idCreateur, myGuid);
-            int idSondage = DAL.AddSondage(newSondage);     
+            int idSondage = DAL.AddSondage(newSondage);
 
+            //TODO : revoir la partie localhost
             newSondage.UrlPartage = @"localhost:8870/Simpoll/Vote?idSondage=" + Convert.ToString(idSondage);
             newSondage.UrlSuppression = @"localhost:8870/Simpoll/DesactiverSondage?myGuid=" + Convert.ToString(myGuid);
             newSondage.UrlResultat = @"localhost:8870/Simpoll/Resultat?idSondage=" + Convert.ToString(idSondage);
 
+            //On met les URL en DB
             DAL.UpdateSondage(newSondage, idSondage);
 
             List<Reponse> mesReponses = new List<Reponse>();
+
+            //On enlève les inputs vide
             foreach(var c in choix)
             {
                 if(!(string.IsNullOrEmpty(c)))
@@ -72,6 +68,7 @@ namespace Simpoll.Controllers
                 }
             }
 
+            //On met les réponses en DB
             foreach(var reponse in mesReponses)
             {
                 DAL.AddReponse(reponse);
@@ -79,12 +76,14 @@ namespace Simpoll.Controllers
             
             return View("page_url", DAL.GetSondageById(idSondage));
         }
+
         public ActionResult RecupInfoUtilisateur(string nomCreateur, string prenomCreateur, string emailCreateur)
         {
             Createur monCreateur = new Createur(nomCreateur, prenomCreateur, emailCreateur);
             monCreateur.IdCreateur = DAL.AddUtilisateur(monCreateur);
             return View("Index", monCreateur);
         }
+
         public ActionResult Vote(int idSondage)
         {
             Sondage monSondage = DAL.GetSondageById(idSondage);
@@ -102,32 +101,16 @@ namespace Simpoll.Controllers
             }
 
         }
+
         public ActionResult VoteSondageUnique(string choixReponse, int idSondage)
         {
             List<Reponse> mesReponse = DAL.GetAllReponse(idSondage);
+            
+            mesReponse[Convert.ToInt32(choixReponse)].NbVoteReponse++;
+            DAL.UpdateNombreVoteReponse(mesReponse[Convert.ToInt32(choixReponse)]);
 
-            //On incrémente le compteur de la réponse qui à été choisi
-            switch(choixReponse)
-            {
-                case "choix1":
-                    mesReponse[0].NbVoteReponse++;
-                    DAL.UpdateNombreVoteReponse(mesReponse[0]);
-                    break;
-                case "choix2":
-                    mesReponse[1].NbVoteReponse++;
-                    DAL.UpdateNombreVoteReponse(mesReponse[1]);
-                    break;
-                case "choix3":
-                    mesReponse[2].NbVoteReponse++;
-                    DAL.UpdateNombreVoteReponse(mesReponse[2]);
-                    break;
-                default:
-                    break;
-            }
-
+            //On récupère le sondage et on incrémente le nombre de votant max
             Sondage monSondage = DAL.GetSondageById(idSondage);
-
-            //On incrémente le nombre de votant
             monSondage.NbVotant++;
             DAL.UpdateNombreVotant(monSondage);
 
@@ -135,43 +118,39 @@ namespace Simpoll.Controllers
             
             return View("page_resultat", monSondageVote);
         } 
-        public ActionResult VoteSondageMultiple(bool? choixReponse1, bool? choixReponse2, bool? choixReponse3, int idSondage)
+
+        public ActionResult VoteSondageMultiple(List<bool> choixReponse, int idSondage)
         {
+            //https://www.productiveedge.com/blog/asp-net-mvc-checkboxfor-explained/
             List<Reponse> mesReponse = DAL.GetAllReponse(idSondage);
-            if(choixReponse1 == null && choixReponse2 == null && choixReponse3 == null)
+
+            if(choixReponse == null)
             {
                 return View("Error_choix_multiple");
             }
-
-            if (choixReponse1 != null)
-            { 
-                mesReponse[0].NbVoteReponse++;
-                DAL.UpdateNombreVoteReponse(mesReponse[0]);
-            }
-
-            if (choixReponse2 != null)
+            else
             {
-                mesReponse[1].NbVoteReponse++;
-                DAL.UpdateNombreVoteReponse(mesReponse[1]);
+                for(int i = 0; i< choixReponse.Count; i++)
+                {
+                    //Si la checkbox est coché, on valide en DB
+                    if(choixReponse[i])
+                    {
+                        mesReponse[i].NbVoteReponse++;
+                        DAL.UpdateNombreVoteReponse(mesReponse[i]);
+                    }
+                }
+            
+                Sondage monSondage = DAL.GetSondageById(idSondage);
+
+                //On incrémente le nombre de votant
+                monSondage.NbVotant++;
+                DAL.UpdateNombreVotant(monSondage);
+                SondageAvecReponse monSondageVote = new SondageAvecReponse(monSondage, mesReponse);
+
+                return View("page_resultat", monSondageVote);
             }
-
-            if (choixReponse3 != null)
-            {
-                mesReponse[2].NbVoteReponse++;
-                DAL.UpdateNombreVoteReponse(mesReponse[2]);
-            }
-
-            Sondage monSondage = DAL.GetSondageById(idSondage);
-
-            //On incrémente le nombre de votant
-            monSondage.NbVotant++;
-            DAL.UpdateNombreVotant(monSondage);
-
-            SondageAvecReponse monSondageVote = new SondageAvecReponse(monSondage, mesReponse);
-
-
-            return View("page_resultat", monSondageVote);
         }
+
         public ActionResult DesactiverSondage(string myGuid)
         {
             Sondage monSondage = DAL.GetSondageByGuid(myGuid);
@@ -187,6 +166,5 @@ namespace Simpoll.Controllers
                 return View("disabled_sondage");
             }
         }
-        
     }
 }

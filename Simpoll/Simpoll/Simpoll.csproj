@@ -150,10 +150,10 @@
     <Content Include="Views\Shared\Error_choix_multiple.cshtml" />
     <Content Include="Views\Simpoll\page_resultat.cshtml" />
     <Content Include="Views\Simpoll\disable_sondage.cshtml" />
-    <Content Include="Views\Simpoll\disabled_sondage.cshtml" />
-    <Content Include="Views\Simpoll\erreur_zero_reponse.cshtml" />
-    <Content Include="Views\Simpoll\erreur_une_reponse.cshtml" />
-    <Content Include="Views\Simpoll\erreur_question.cshtml" />
+    <Content Include="Views\Shared\disabled_sondage.cshtml" />
+    <Content Include="Views\Shared\erreur_zero_reponse.cshtml" />
+    <Content Include="Views\Shared\erreur_une_reponse.cshtml" />
+    <Content Include="Views\Shared\erreur_question.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
