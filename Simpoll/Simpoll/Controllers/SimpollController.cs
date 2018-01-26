@@ -30,7 +30,7 @@ namespace Simpoll.Controllers
             }
 
             //Gestion de la saisie utilisateur
-            choix.RemoveAll(element => (string.IsNullOrWhiteSpace(element))); //Parcour la liste est retire les chaine vide ou null
+            choix.RemoveAll(element => (string.IsNullOrWhiteSpace(element))); //Parcour la liste et retire les chaines vide ou null ou les espace
             if (choix.Count() < 2) // l'utilisateur dois saisir au moins deux choix de reponses
             {
                 //On renvoit une exception ?
