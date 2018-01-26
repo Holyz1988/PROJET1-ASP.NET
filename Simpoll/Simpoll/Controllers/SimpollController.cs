@@ -29,16 +29,15 @@ namespace Simpoll.Controllers
                 choix_multiple = true;
             }
 
-
             //Gestion de la saisie utilisateur
-            choix.RemoveAll(element => (string.IsNullOrEmpty(element)));           
+            choix.RemoveAll(element => (string.IsNullOrWhiteSpace(element))); //Parcour la liste est retire les chaine vide ou null
             if (choix.Count() < 2) // l'utilisateur dois saisir au moins deux choix de reponses
             {
                 //On renvoit une exception ?
                 return View("erreur_zero_reponse");
             }
             
-            if (string.IsNullOrEmpty(question)) // L'utilisateur doit saisir la question
+            if (string.IsNullOrWhiteSpace(question)) // L'utilisateur doit saisir la question
             {
                 return View("erreur_question");
             }
@@ -102,44 +101,47 @@ namespace Simpoll.Controllers
 
         }
 
-        public ActionResult VoteSondageUnique(string choixReponse, int idSondage)
+        public ActionResult VoteSondageUnique(int? choixReponse, int idSondage)
         {
             List<Reponse> mesReponse = DAL.GetAllReponse(idSondage);
-            
-            mesReponse[Convert.ToInt32(choixReponse)].NbVoteReponse++;
-            DAL.UpdateNombreVoteReponse(mesReponse[Convert.ToInt32(choixReponse)]);
 
-            //On récupère le sondage et on incrémente le nombre de votant max
-            Sondage monSondage = DAL.GetSondageById(idSondage);
-            monSondage.NbVotant++;
-            DAL.UpdateNombreVotant(monSondage);
+            if(choixReponse.HasValue)
+            {
+                mesReponse[(int)choixReponse].NbVoteReponse++;
+                DAL.UpdateNombreVoteReponse(mesReponse[(int)choixReponse]);
 
-            SondageAvecReponse monSondageVote = new SondageAvecReponse(monSondage, mesReponse);
+                //On récupère le sondage et on incrémente le nombre de votant max
+                Sondage monSondage = DAL.GetSondageById(idSondage);
+                monSondage.NbVotant++;
+                DAL.UpdateNombreVotant(monSondage);
+
+                SondageAvecReponse monSondageVote = new SondageAvecReponse(monSondage, mesReponse);
             
-            return View("page_resultat", monSondageVote);
+                return View("page_resultat", monSondageVote);
+            }
+            else
+            {
+                return Redirect("Vote?idSondage=" + idSondage);
+            }
         } 
 
-        public ActionResult VoteSondageMultiple(List<bool> choixReponse, int idSondage)
+        public ActionResult VoteSondageMultiple(List<int> choixReponse, int idSondage)
         {
             //https://www.productiveedge.com/blog/asp-net-mvc-checkboxfor-explained/
             List<Reponse> mesReponse = DAL.GetAllReponse(idSondage);
 
-            if(choixReponse == null)
+            if (choixReponse == null)
             {
                 return View("Error_choix_multiple");
             }
             else
             {
-                for(int i = 0; i< choixReponse.Count; i++)
+                //Si la checkbox est coché, on valide en DB
+                foreach (var choix in choixReponse)
                 {
-                    //Si la checkbox est coché, on valide en DB
-                    if(choixReponse[i])
-                    {
-                        mesReponse[i].NbVoteReponse++;
-                        DAL.UpdateNombreVoteReponse(mesReponse[i]);
-                    }
+                    mesReponse[choix].NbVoteReponse++;
+                    DAL.UpdateNombreVoteReponse(mesReponse[choix]);
                 }
-            
                 Sondage monSondage = DAL.GetSondageById(idSondage);
 
                 //On incrémente le nombre de votant
