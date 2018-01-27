@@ -5,6 +5,8 @@ using System.Web;
 using System.Web.Mvc;
 using Simpoll.Models;
 using System.Web.UI.WebControls;
+using System.Net;
+using System.Net.Mail;
 
 namespace Simpoll.Controllers
 {
@@ -72,7 +74,38 @@ namespace Simpoll.Controllers
             {
                 DAL.AddReponse(reponse);
             }
-            
+
+            //Envoie un mail au createur du sondage(pour l'instant donnés en dur)
+            //TODO recuperer les infos createur de la DB pour envoyer mail au vrai createur du sondage avec ses 3 urls
+            string SendersAddress = "simpoll.sondage@gmail.com";
+            string ReceiversAddress = "zeghad.amine@yahoo.fr";
+            string SendersPassword = "Simpoll68@";
+            string subject = "Test Envoie Mail ";
+
+            string htmlBody = @"<!doctype html><html><headers><img src=""https://image.noelshack.com/fichiers/2018/04/6/1517067469-simpoll.png ""  alt=""Logo Simpoll""/></headers>
+                                <p><h1>Merci d'avoir choisi Simpoll pour créer votre sondage</h1></p><br />
+                                <p><h2>Voici vos 3 liens :</h2><br /></p>
+                                <p>La team Simpoll vous dit à bientôt pour de nouveaux sondage !!</p>";
+
+
+
+            SmtpClient smtp = new SmtpClient
+            {
+                Host = "smtp.sfr.fr",
+                Port = 25,
+
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                Credentials = new NetworkCredential(SendersAddress, SendersPassword),
+
+            };
+
+            MailMessage message = new MailMessage(SendersAddress, ReceiversAddress, subject, htmlBody);
+            message.IsBodyHtml = true;
+
+
+
+            smtp.Send(message);
+
             return View("page_url", DAL.GetSondageById(idSondage));
         }
 
