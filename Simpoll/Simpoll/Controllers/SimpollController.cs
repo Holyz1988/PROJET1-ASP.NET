@@ -75,10 +75,10 @@ namespace Simpoll.Controllers
                 DAL.AddReponse(reponse);
             }
 
-            //Envoie un mail au createur du sondage(pour l'instant donnés en dur)
+            //Envoie un mail au createur du sondage
             //TODO recuperer les infos createur de la DB pour envoyer mail au vrai createur du sondage avec ses 3 urls
             string SendersAddress = "simpoll.sondage@gmail.com";
-            string ReceiversAddress = "zeghad.amine@yahoo.fr";
+            string ReceiversAddress = "damien.meister@hotmail.fr";
             string SendersPassword = "Simpoll68@";
             string subject = "Test Envoie Mail ";
 
