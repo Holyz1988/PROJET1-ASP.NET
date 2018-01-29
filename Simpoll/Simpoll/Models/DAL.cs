@@ -233,5 +233,39 @@ namespace Simpoll.Models
 
             return monSondage;
         }
+
+        public static Createur GetCreateurById(int idSondage)
+        {
+            SqlConnection connection = new SqlConnection(SqlConnectionString);
+            connection.Open();
+
+            SqlCommand maCommande = new SqlCommand(@"SELECT IdCreateur, NomCreateur, PrenomCreateur, EmailCreateur 
+                                                     FROM Createur c, Sondage s 
+                                                     WHERE c.IdCreateur = s.FKIdCreateur AND IdSondage = @idSondage", connection);
+            maCommande.Parameters.AddWithValue("@idSondage", idSondage);
+            SqlDataReader monReader = maCommande.ExecuteReader();
+
+            string nomCreateur = "";
+            string prenomCreateur = "";
+            string emailCreateur = "";
+           
+
+            monReader.Read();
+
+            nomCreateur = (string)monReader["NomCreateur"];
+            prenomCreateur = (string)monReader["PrenomCreateur"];
+            emailCreateur = (string)monReader["EmailCreateur"];
+
+
+            Createur monCreateur = new Createur(nomCreateur, prenomCreateur, emailCreateur);
+
+            connection.Close();
+
+            return monCreateur;
+
+
+        }
+
+
     }
 }
