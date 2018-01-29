@@ -102,9 +102,9 @@ namespace Simpoll.Controllers
             SmtpServer.Send(mail);
 
     
-
+            */
             //Envoie un mail au createur du sondage
-            //TODO recuperer les infos createur de la DB pour envoyer mail au vrai createur du sondage avec ses 3 urls
+            //TODO tester si l'envoie de mail fonctionne au campus
             
 
             string EmailEnvoyeur = "simpoll.sondage@gmail.com";
@@ -128,9 +128,9 @@ namespace Simpoll.Controllers
                                         
             SmtpClient smtp = new SmtpClient
             {
-                Host = "smtp.sfr.fr",
+                Host = "smtp.gmail.com",
                 Port = 25,
-
+                EnableSsl = true,
                 DeliveryMethod = SmtpDeliveryMethod.Network,
                 Credentials = new NetworkCredential(EmailEnvoyeur, password),
 
@@ -142,7 +142,7 @@ namespace Simpoll.Controllers
 
 
             smtp.Send(message);
-            */
+            
             
 
             return View("page_url", DAL.GetSondageById(idSondage));
@@ -158,7 +158,7 @@ namespace Simpoll.Controllers
         public ActionResult Vote(int idSondage)
         {
             HttpCookie cookie = Request.Cookies["SondageCookie"];
-            if (cookie == null)
+            if (cookie == null )
             {
                 // Cookie non trouvé, on en crée un nouveau
                 cookie = new HttpCookie("SondageCookie");
