@@ -39,8 +39,36 @@
         <img src="/Content/simpoll.png" alt="Logo Simpoll" />
     </header>
     <section class="container">
-        
- 
+        <div class="img-thumbnail">
+            <h1>Question : @Model.Sondage.QuestionSondage</h1>
+            <table class="table table-striped table-inverse">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Intitulé du choix</th>
+                        <th>Nombre de votes</th>
+                        <th>Résultat</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{int i = 1;
+                        foreach (var reponse in Model.MesReponses)
+                        {
+                            <tr>
+                                <th scope="row">@i</th>
+                                <td>@reponse.IntituleReponse</td>
+                                <td>@reponse.NbVoteReponse votes</td>
+                                <td>@reponse.GetPourcentage(Model.Sondage) %</td>
+                            </tr>
+                            i++;
+                        }
+                    }
+                </tbody>
+            </table>
+            <div>
+                <p class="p-3 mb-2 bg-light text-black">Il y a @Model.Sondage.NbVotant personnes qui ont déjà participées au sondage</p>
+            </div>
+        </div>
     </section>
     <footer></footer>
     <!-- Optional JavaScript -->

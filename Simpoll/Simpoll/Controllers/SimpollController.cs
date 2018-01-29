@@ -33,7 +33,7 @@ namespace Simpoll.Controllers
 
             //Gestion de la saisie utilisateur
             choix.RemoveAll(element => (string.IsNullOrWhiteSpace(element))); //Parcour la liste et retire les chaines vide ou null ou les espace
-            if (choix.Count() < 2) // l'utilisateur dois saisir au moins deux choix de reponses
+            if (choix.Count() < 2) // l'utilisateur doit saisir au moins deux choix de reponses
             {
                 //On renvoit une exception ?
                 return View("erreur_zero_reponse");
@@ -77,8 +77,12 @@ namespace Simpoll.Controllers
 
             Createur monCreateur = DAL.GetCreateurById(idSondage);
 
+            /*
+
             MailMessage mail = new MailMessage();
             SmtpClient SmtpServer = new SmtpClient("smtp.sfr.fr");
+
+            
 
             mail.From = new MailAddress("simpoll.sondage@gmail.com");
             mail.To.Add(monCreateur.EmailCreateur);
@@ -97,18 +101,17 @@ namespace Simpoll.Controllers
 
             SmtpServer.Send(mail);
 
+    
+
             //Envoie un mail au createur du sondage
             //TODO recuperer les infos createur de la DB pour envoyer mail au vrai createur du sondage avec ses 3 urls
-            /*
+            
 
             string EmailEnvoyeur = "simpoll.sondage@gmail.com";
             string EmailReception = monCreateur.EmailCreateur ;
             string password = "Simpoll68@";
             string objet = "Votre sondage a été crée ";
-
-            string htmlBody = @"<!doctype html><html><head></head><body><p>" + newSondage.UrlPartage + @"</p></body></html>";
-            /*
-
+       
             string htmlBody = @"<!doctype html>
                                     <html>
                                         <headers>
@@ -140,6 +143,7 @@ namespace Simpoll.Controllers
 
             smtp.Send(message);
             */
+            
 
             return View("page_url", DAL.GetSondageById(idSondage));
         }
@@ -153,24 +157,45 @@ namespace Simpoll.Controllers
 
         public ActionResult Vote(int idSondage)
         {
+            HttpCookie cookie = Request.Cookies["SondageCookie"];
+            if (cookie == null)
+            {
+                // Cookie non trouvé, on en crée un nouveau
+                cookie = new HttpCookie("SondageCookie");
+                cookie.Values["SondageId"] = idSondage.ToString();
+            }
+            else
+            {
+                // redirige vers la page de résultats
+                return Redirect("/Simpoll/Resultat?idSondage=" + idSondage);
+            }
+
+            Response.Cookies.Add(cookie);
+
             Sondage monSondage = DAL.GetSondageById(idSondage);
             List<Reponse> mesReponse = DAL.GetAllReponse(idSondage);
 
             SondageAvecReponse SondageComplet = new SondageAvecReponse(monSondage, mesReponse);
 
-            if(!monSondage.ChoixMultiple)
+            if (monSondage.Actif)
             {
-                return View("vote_choix_unique", SondageComplet);
+                if (!monSondage.ChoixMultiple)
+                {
+                    return View("vote_choix_unique", SondageComplet);
+                }
+                else
+                {
+                    return View("vote_choix_multiple", SondageComplet);
+                }
             }
             else
             {
-                return View("vote_choix_multiple", SondageComplet);
+                return Redirect("/Simpoll/Resultat?idSondage=" + idSondage);
             }
-
         }
 
         public ActionResult VoteSondageUnique(int? choixReponse, int idSondage)
-        {
+        { 
             List<Reponse> mesReponse = DAL.GetAllReponse(idSondage);
 
             if(choixReponse.HasValue)
@@ -185,7 +210,7 @@ namespace Simpoll.Controllers
 
                 SondageAvecReponse monSondageVote = new SondageAvecReponse(monSondage, mesReponse);
             
-                return View("page_resultat", monSondageVote);
+                return Redirect("Resultat?idSondage=" + idSondage);
             }
             else
             {
@@ -217,7 +242,7 @@ namespace Simpoll.Controllers
                 DAL.UpdateNombreVotant(monSondage);
                 SondageAvecReponse monSondageVote = new SondageAvecReponse(monSondage, mesReponse);
 
-                return View("page_resultat", monSondageVote);
+                return Redirect("Resultat?idSondage=" + idSondage);
             }
         }
 
@@ -225,6 +250,7 @@ namespace Simpoll.Controllers
         {
             Sondage monSondage = DAL.GetSondageByGuid(myGuid);
 
+            //Test si le sondage est actif ou non
             if(monSondage.Actif)
             {
                 monSondage.Actif = false;
@@ -236,5 +262,18 @@ namespace Simpoll.Controllers
                 return View("disabled_sondage");
             }
         }
+
+        public ActionResult Resultat(int idSondage)
+        {
+            Sondage monSondage = DAL.GetSondageById(idSondage);
+            List<Reponse> mesReponse = DAL.GetReponseOrderedById(idSondage);
+
+            SondageAvecReponse SondageComplet = new SondageAvecReponse(monSondage, mesReponse);
+
+            return View("page_resultat", SondageComplet);
+        }
+
+       
+        
     }
 }

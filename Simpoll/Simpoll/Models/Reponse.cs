@@ -20,11 +20,34 @@ namespace Simpoll.Models
             this.FKIdSondage = fkIdSondage;
         }
 
+        public Reponse(int idSondage, string choixReponse, int nbVoteReponse)
+        {
+            this.FKIdSondage = idSondage;
+            this.IntituleReponse = choixReponse;
+            this.NbVoteReponse = nbVoteReponse;
+        }
+
         public Reponse(int idSondage, string choixReponse)
         {
             this.FKIdSondage = idSondage;
             this.IntituleReponse = choixReponse;
             this.NbVoteReponse = 0;
         }
+
+        public decimal GetPourcentage(Sondage unSondage)
+        {
+            if (unSondage.NbVotant == 0)
+            {
+                return 0;
+            }
+            else if(!unSondage.ChoixMultiple)
+            {
+                return Math.Round((((decimal)this.NbVoteReponse / (decimal)unSondage.NbVotant) * 100), 2);
+            }
+            else
+            {
+                return Math.Round((((decimal)this.NbVoteReponse / (decimal)DAL.GetSommeVoteDesReponses(unSondage.IdSondage) * 100)), 2);
+            }
+        }                
     }
 }

@@ -234,6 +234,38 @@ namespace Simpoll.Models
             return monSondage;
         }
 
+        public static List<Reponse> GetReponseOrderedById(int idSondage)
+        {
+            List<Reponse> mesReponse = new List<Reponse>();
+
+            SqlConnection connexion = new SqlConnection(SqlConnectionString);
+            connexion.Open();
+
+            SqlCommand maCommande = new SqlCommand("SELECT IdReponse, IntituleReponse, NbVoteReponse " +
+                                                    "FROM Reponse " +
+                                                    "WHERE FKIdSondage=@idSondage " +
+                                                    "ORDER BY NbVoteReponse DESC", connexion);
+            maCommande.Parameters.AddWithValue("@idSondage", idSondage);
+            SqlDataReader monReader = maCommande.ExecuteReader();
+
+            int idReponse = 0;
+            string intituleReponse = string.Empty;
+            int nbVoteReponse = 0;
+            while (monReader.Read())
+            {
+                idReponse = (int)monReader["IdReponse"];
+                intituleReponse = (string)monReader["IntituleReponse"];
+                nbVoteReponse = (int)monReader["NbVoteReponse"];
+                Reponse maReponse = new Reponse(idReponse, intituleReponse, nbVoteReponse);
+                mesReponse.Add(maReponse);
+            }
+
+
+            connexion.Close();
+
+            return mesReponse;
+        }
+
         public static Createur GetCreateurById(int idSondage)
         {
             SqlConnection connection = new SqlConnection(SqlConnectionString);
@@ -248,8 +280,7 @@ namespace Simpoll.Models
             string nomCreateur = "";
             string prenomCreateur = "";
             string emailCreateur = "";
-           
-
+         
             monReader.Read();
 
             nomCreateur = (string)monReader["NomCreateur"];
@@ -258,14 +289,26 @@ namespace Simpoll.Models
 
 
             Createur monCreateur = new Createur(nomCreateur, prenomCreateur, emailCreateur);
-
             connection.Close();
 
             return monCreateur;
+        }  
 
+        public static int GetSommeVoteDesReponses(int idSondage)
+        {
+            SqlConnection connexion = new SqlConnection(SqlConnectionString);
+            connexion.Open();
 
+            SqlCommand maCommande = new SqlCommand(@"select sum(NbVoteReponse)" +
+                                                    "FROM Reponse " +
+                                                    "WHERE FKIdSondage=@id_sondage", connexion);
+            maCommande.Parameters.AddWithValue("@id_sondage", idSondage);
+
+            int sommeVoteDesReponse = (int)maCommande.ExecuteScalar();
+
+            connexion.Close();
+
+            return sommeVoteDesReponse;
         }
-
-
     }
 }
