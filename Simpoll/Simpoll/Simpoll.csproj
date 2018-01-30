@@ -156,6 +156,7 @@
     <Content Include="Views\Shared\erreur_zero_reponse.cshtml" />
     <Content Include="Views\Shared\erreur_une_reponse.cshtml" />
     <Content Include="Views\Shared\erreur_question.cshtml" />
+    <Content Include="Views\Shared\erreur_cookie.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
