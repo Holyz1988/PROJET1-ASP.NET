@@ -118,6 +118,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\simpoll.png" />
+    <Content Include="Content\style.css" />
     <Content Include="Global.asax" />
     <Content Include="scripts\ai.0.22.9-build00167.js" />
     <Content Include="scripts\ai.0.22.9-build00167.min.js" />
@@ -163,7 +165,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Content\" />
     <Folder Include="Views\EnvoieMail\" />
   </ItemGroup>
   <PropertyGroup>

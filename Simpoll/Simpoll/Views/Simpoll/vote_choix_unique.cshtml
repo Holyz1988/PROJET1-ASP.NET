@@ -35,35 +35,39 @@
             </li>
         </ul>
     </nav>
-    <header class="container">
-        <img src="/Content/simpoll.png" alt="Logo Simpoll" />
-    </header>
-    <section class="container">
-        <div class="container">
-            <h1>@Model.Sondage.QuestionSondage</h1>
-        </div>
-        <div class="container">
-        <form action="VoteSondageUnique" method="post">
-            <input type="hidden" name="idSondage" value="@Model.Sondage.IdSondage" />
-            @{
+        <header class="container">
+            <img src="/Content/simpoll.png" alt="Logo Simpoll" />
+        </header>
+        <section class="container">
+                <div>
+                    <h1>@Model.Sondage.QuestionSondage</h1>
+                </div>
+                <form action="VoteSondageUnique" method="post">
+                <input type="hidden" name="idSondage" value="@Model.Sondage.IdSondage" />
+                 @{
                     int i = 0;
                     foreach (var reponse in Model.MesReponses)
                     {
                         <div class="form-group ">
-                            <input name="choixReponse" type="radio" value=@i id=@i)>
+                            <input name="choixReponse" type="radio" value=@i id=@i )>
                             <label for=choixReponse>@reponse.IntituleReponse</label>
                         </div>
-                         i++;
-                    }
-             }
-            <div>
+                        i++;
+                     }
+                  }
+
                 <p class="p-3 mb-2 bg-primary text-white">Il y a @Model.Sondage.NbVotant personnes qui ont déjà participées</p>
-            </div>
-            <div>
-                <button type="submit" class="btn btn-danger">VALIDER</button>
-            </div>
-        </form>
-        </div>
+                <div class="row">
+                <div class="col-lg-2">
+                    <button type="submit" class="btn btn-danger">VALIDER</button>
+                </div>
+                <div class="col-lg-8">
+                </div>
+                <div class="col-lg-2">
+                    <a href="/Simpoll/CreationUtilisateur"><button type="button" class="btn btn-dark">Page d'accueil</button></a>
+                </div>
+                </div>
+                    </form>
     </section>
     <footer></footer>
     <!-- Optional JavaScript -->

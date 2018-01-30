@@ -10,7 +10,6 @@ namespace Simpoll.Models
         public int IdSondage { get; private set; }
         public string QuestionSondage { get; private set; }
         public bool ChoixMultiple { get; private set; }
-        public List<Reponse> reponseSondage { get; set; } // Aucune utilisation actuelle
         public string UrlPartage { get; set; }
         public string UrlSuppression { get; set; }
         public string UrlResultat { get; set; }

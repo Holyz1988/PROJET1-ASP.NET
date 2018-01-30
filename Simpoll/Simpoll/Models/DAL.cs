@@ -9,6 +9,7 @@ namespace Simpoll.Models
     public class DAL
     {
         private const string SqlConnectionString = @"Server=.\SQLExpress;Initial Catalog=Simpoll; Trusted_Connection=Yes";
+        //private const string SqlConnectionString = @"Server=.\192.18.240.2;Initial Catalog=Simpoll; Trusted_Connection=Yes";
 
         //Methode pour ajouter un utilisateur créateur de sondage en BDD
         public static int AddUtilisateur(Createur unCreateur)
@@ -201,7 +202,7 @@ namespace Simpoll.Models
             connection.Open();
 
             SqlCommand maCommande = new SqlCommand(@"SELECT * FROM Sondage WHERE Guid=@my_guid", connection);
-            maCommande.Parameters.AddWithValue("@my_guid", guid);
+            maCommande.Parameters.AddWithValue("@my_guid", (string)guid);
             SqlDataReader monReader = maCommande.ExecuteReader();
 
             int id = 0;
@@ -310,5 +311,7 @@ namespace Simpoll.Models
 
             return sommeVoteDesReponse;
         }
+
+
     }
 }

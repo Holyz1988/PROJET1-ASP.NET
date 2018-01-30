@@ -44,13 +44,13 @@
                 <input type="text" class="form-control" name="question" placeholder="Saisir une question" />
             </div>
             <div class="form-group">
-                <input type="text" class="form-control" name="choix[0]" placeholder="Saisir un choix de réponse" />
+                <input type="text" class="form-control" name="choix" placeholder="Saisir un choix de réponse" />
             </div>
             <div class="form-group">
-                <input type="text" class="form-control" name="choix[1]" placeholder="Saisir un choix de réponse" />
+                <input type="text" class="form-control" name="choix" placeholder="Saisir un choix de réponse" />
             </div>
             <div class="form-group">
-                <input type="text" class="form-control" name="choix[2]" placeholder="Saisir un choix de réponse" />
+                <input type="text" class="form-control" name="choix" placeholder="Saisir un choix de réponse" />
             </div>
             <div class="mb-4">
                 <label class="custom-control custom-radio">
@@ -64,8 +64,15 @@
                     <span class="custom-control-description">Choix multiple</span>
                 </label>
             </div>
-            <div>
-                <button type="submit" class="btn btn-danger">VALIDER</button>
+            <div class="row">
+                <div class="col-lg-2">
+                    <button type="submit" class="btn btn-primary">Valider le sondage</button>
+                </div>
+                <div class="col-lg-8">
+                </div>
+                <div class="col-lg-2">
+                    <a href="/Simpoll/CreationUtilisateur"><button type="button" class="btn btn-dark">Page d'accueil</button></a>
+                </div>
             </div>
         </form>
     </section>
