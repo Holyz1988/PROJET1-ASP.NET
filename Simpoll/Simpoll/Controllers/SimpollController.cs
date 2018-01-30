@@ -77,32 +77,6 @@ namespace Simpoll.Controllers
 
             Createur monCreateur = DAL.GetCreateurById(idSondage);
 
-            /*
-
-            MailMessage mail = new MailMessage();
-            SmtpClient SmtpServer = new SmtpClient("smtp.sfr.fr");
-
-            
-
-            mail.From = new MailAddress("simpoll.sondage@gmail.com");
-            mail.To.Add(monCreateur.EmailCreateur);
-            mail.Subject = "Test Mail";
-
-            mail.IsBodyHtml = true;
-            string htmlBody;
-
-            htmlBody = @"<!doctype html><html><head></head><body><p>" + newSondage.UrlPartage + @"</p></body></html>"; ;
-
-            mail.Body = htmlBody;
-
-            SmtpServer.Port = 25;
-            SmtpServer.Credentials = new System.Net.NetworkCredential("simpoll.sondage@gmail.com", "Simpoll68@");
-            SmtpServer.EnableSsl = true;
-
-            SmtpServer.Send(mail);
-
-    
-            */
             //Envoie un mail au createur du sondage
             //TODO tester si l'envoie de mail fonctionne au campus
             
@@ -139,11 +113,7 @@ namespace Simpoll.Controllers
             MailMessage message = new MailMessage(EmailEnvoyeur, EmailReception, objet, htmlBody);
             message.IsBodyHtml = true;
 
-
-
-            smtp.Send(message);
-            
-            
+            smtp.Send(message);     
 
             return View("page_url", DAL.GetSondageById(idSondage));
         }
@@ -157,11 +127,11 @@ namespace Simpoll.Controllers
 
         public ActionResult Vote(int idSondage)
         {
-            HttpCookie cookie = Request.Cookies["SondageCookie"];
+            HttpCookie cookie = Request.Cookies["SondageCookie" + idSondage];
             if (cookie == null )
             {
                 // Cookie non trouvé, on en crée un nouveau
-                cookie = new HttpCookie("SondageCookie");
+                cookie = new HttpCookie("SondageCookie" + idSondage);
                 cookie.Values["SondageId"] = idSondage.ToString();
             }
             else
