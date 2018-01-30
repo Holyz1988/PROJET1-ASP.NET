@@ -99,17 +99,22 @@ namespace Simpoll.Controllers
 
                 string htmlBody = @"<!doctype html>
                                             <html>
+                                                <body>
                                                 <headers>
-                                                    <img src=""https://image.noelshack.com/fichiers/2018/04/6/1517067469-simpoll.png"" alt=""Logo Simpoll""/>
+                                                    <img src=""https://image.noelshack.com/fichiers/2018/05/2/1517339614-simpoll.png"" alt=""Logo Simpoll""/>
                                                 </headers>
-                                                <h1>Merci " + monCreateur.PrenomCreateur + @" d'avoir choisi Simpoll pour créer votre sondage</h1>
-                                                <h2>Voici vos 3 liens :</h2>
+                                                <div>
+                                                <h2>Merci " + monCreateur.PrenomCreateur + @" d'avoir choisi Simpoll pour créer votre sondage</h2>
+                                                </div>
+                                                <p>Voici vos 3 liens :</p>
                                                     <ul>
                                                         <li>" + newSondage.UrlPartage + @"</li>
                                                         <li>" + newSondage.UrlResultat + @"</li>
                                                         <li>" + newSondage.UrlSuppression + @"</li>
                                                     </ul>
-                                                <p>La team Simpoll vous dit à bientôt pour de nouveaux sondage !!</p>";
+                                                <p>La team Simpoll vous dit à bientôt pour de nouveaux sondage !!</p>
+                                                </body>
+                                                </html>";
 
                 SmtpClient smtp = new SmtpClient
                 {

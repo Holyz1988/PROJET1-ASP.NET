@@ -53,22 +53,25 @@
                 </thead>
                 <tbody>
                     @{int i = 1;
-                        foreach (var reponse in Model.MesReponses)
-                        {
-                            <tr>
-                                <th scope="row">@i</th>
-                                <td>@reponse.IntituleReponse</td>
-                                <td>@reponse.NbVoteReponse votes</td>
-                                <td>@reponse.GetPourcentage(Model.Sondage) %</td>
-                            </tr>
-                            i++;
-                        }
+                    foreach (var reponse in Model.MesReponses)
+                    {
+                        <tr>
+                            <th scope="row">@i</th>
+                            <td>@reponse.IntituleReponse</td>
+                            <td>@reponse.NbVoteReponse votes</td>
+                            <td>@reponse.GetPourcentage(Model.Sondage) %</td>
+                        </tr>
+                    i++;
+                }
                     }
                 </tbody>
             </table>
             <div>
                 <p class="p-3 mb-2 bg-light text-black">Il y a @Model.Sondage.NbVotant personnes qui ont déjà participées au sondage</p>
             </div>
+        </div>
+        <div class="col-lg-2">
+            <a href="/Simpoll/CreationUtilisateur"><button type="button" class="btn btn-dark">Page d'accueil</button></a>
         </div>
     </section>
     <footer></footer>
