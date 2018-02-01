@@ -144,7 +144,7 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Views\Simpoll\Index.cshtml" />
+    <Content Include="Views\Simpoll\page_creation_sondage.cshtml" />
     <Content Include="Views\Simpoll\page_creation_utilisateur.cshtml" />
     <Content Include="Views\Simpoll\page_url.cshtml" />
     <Content Include="Views\Simpoll\vote_choix_unique.cshtml" />

@@ -311,7 +311,5 @@ namespace Simpoll.Models
 
             return sommeVoteDesReponse;
         }
-
-
     }
 }

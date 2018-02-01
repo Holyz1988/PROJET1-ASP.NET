@@ -12,6 +12,13 @@ namespace Simpoll.Models
         public string PrenomCreateur { get; set; }
         public string EmailCreateur { get; set; }
 
+        public Createur(int id , string nom, string prenom, string email)
+        {
+            this.IdCreateur = id;
+            this.NomCreateur = nom;
+            this.PrenomCreateur = prenom;
+            this.EmailCreateur = email;
+        }
         public Createur(string nom, string prenom, string email)
         {
             this.NomCreateur = nom;

@@ -12,10 +12,6 @@ namespace Simpoll.Controllers
 {
     public class SimpollController : Controller
     {
-        public ActionResult Index()
-        {
-            return View("Index");
-        }
 
         public ActionResult CreationUtilisateur()
         {
@@ -106,7 +102,7 @@ namespace Simpoll.Controllers
             return View("page_url", DAL.GetSondageById(idSondage));
         }
 
-        public ActionResult RecupInfoUtilisateur(string nomCreateur, string prenomCreateur, string emailCreateur)
+        public ActionResult FormulaireUtilisateur(string nomCreateur, string prenomCreateur, string emailCreateur)
         {
             Createur monCreateur = new Createur(nomCreateur, prenomCreateur, emailCreateur);
 
@@ -119,7 +115,7 @@ namespace Simpoll.Controllers
                 return new HttpNotFoundResult();
             }
 
-            return View("Index", monCreateur);
+            return View("page_creation_sondage", monCreateur);
         }
 
         public ActionResult Vote(int? idSondage)
@@ -128,39 +124,37 @@ namespace Simpoll.Controllers
             {
                 return new HttpNotFoundResult();
             }
+
+            Sondage monSondage;
+            List<Reponse> mesReponse;
+
+            try
+            {
+                monSondage = DAL.GetSondageById((int)idSondage);
+                mesReponse = DAL.GetAllReponse((int)idSondage);
+            }
+            catch (Exception)
+            {
+                return new HttpNotFoundResult();
+            }
+
+            SondageAvecReponse SondageComplet = new SondageAvecReponse(monSondage, mesReponse);
+
+            if (monSondage.Actif)
+            {
+                if (!monSondage.ChoixMultiple)
+                {
+                    return View("vote_choix_unique", SondageComplet);
+                }
+
+                return View("vote_choix_multiple", SondageComplet);
+
+            }
             else
             {
-                Sondage monSondage;
-                List<Reponse> mesReponse;
-
-                try
-                {
-                    monSondage = DAL.GetSondageById((int)idSondage);
-                    mesReponse = DAL.GetAllReponse((int)idSondage);
-                }
-                catch (Exception)
-                {
-                    return new HttpNotFoundResult();
-                }
-
-                SondageAvecReponse SondageComplet = new SondageAvecReponse(monSondage, mesReponse);
-
-                if (monSondage.Actif)
-                {
-                    if (!monSondage.ChoixMultiple)
-                    {
-                        return View("vote_choix_unique", SondageComplet);
-                    }
-                    else
-                    {
-                        return View("vote_choix_multiple", SondageComplet);
-                    }
-                }
-                else
-                {
-                    return Redirect("/Simpoll/Resultat?idSondage=" + idSondage);
-                }
+                return Redirect("/Simpoll/Resultat?idSondage=" + idSondage);
             }
+
         }
 
         public ActionResult VoteSondageUnique(int? choixReponse, int? idSondage)
@@ -261,8 +255,7 @@ namespace Simpoll.Controllers
             return Redirect("Resultat?idSondage=" + idSondage);
 
         }
-
-
+        
         public ActionResult DesactiverSondage(string myGuid)
         {
             Sondage monSondage;
