@@ -1,4 +1,4 @@
-﻿@model int
+﻿@model int?
 @{
     Layout = null;
 }
@@ -42,17 +42,17 @@
     <section class="container">
         <form action="/Simpoll/CreationSondage" method="post">
             <input type="hidden" name="idCreateur" value="@Model" />
-            <div class="form-group mb-5">
-                <input type="text" class="form-control" name="question" placeholder="Saisir une question" />
+            <div class="form-group">
+                <input type="text" class="form-control col-lg-6" name="question" placeholder="Saisir une question" />
             </div>
             <div class="form-group">
-                <input type="text" class="form-control" name="choix" placeholder="Saisir un choix de réponse" />
+                <input type="text" class="form-control col-lg-6" name="choix" placeholder="Saisir un choix de réponse" />
             </div>
             <div class="form-group">
-                <input type="text" class="form-control" name="choix" placeholder="Saisir un choix de réponse" />
+                <input type="text" class="form-control col-lg-6" name="choix" placeholder="Saisir un choix de réponse" />
             </div>
             <div class="form-group">
-                <input type="text" class="form-control" name="choix" placeholder="Saisir un choix de réponse" />
+                <input type="text" class="form-control col-lg-6" name="choix" placeholder="Saisir un choix de réponse" />
             </div>
             <div class="mb-4">
                 <label class="custom-control custom-radio">
@@ -73,7 +73,7 @@
                 <div class="col-lg-8">
                 </div>
                 <div class="col-lg-2">
-                    <a href="/Simpoll/CreationUtilisateur"><button type="button" class="btn btn-dark">Page d'accueil</button></a>
+                    <a href="/Simpoll/CreationUtilisateur" type="button" class="btn btn-block btn-dark">Page d'accueil</></a>
                 </div>
             </div>
         </form>

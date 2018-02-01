@@ -49,19 +49,19 @@
             <div class="form-group row">
                 <label for="URLSuppression" class="col-sm-2 col-form-label">Désactiver le sondage </label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" value="@Model.UrlSuppression">
+                    <input type="text" class="form-control col-lg-8" value="@Model.UrlSuppression">
                 </div>
             </div>
             <div class="form-group row">
                 <label for="URLPartage" class="col-sm-2 col-form-label">Partager le sondage </label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" value="@Model.UrlPartage">
+                    <input type="text" class="form-control col-lg-8" value="@Model.UrlPartage">
                 </div>
             </div>
             <div class="form-group row">
                 <label for="URLResultat" class="col-sm-2 col-form-label">Accéder aux résultats</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" value="@Model.UrlResultat">
+                    <input type="text" class="form-control col-lg-8" value="@Model.UrlResultat">
                 </div>
             </div>
             <div>
@@ -73,12 +73,12 @@
                         <a href="/Partage/Resultat/@Model.IdSondage" type="button" class="btn btn-block btn-primary" role="button">Résultats</a>
                     </div>
                     <div class="col-lg-2">
-                        <a href="/Partage/DesactiverSondage/@Model.Guid" class="btn btn-block btn-danger justify-content-end" role="button">Supprimer</a>
+                        <a href="/Partage/DesactiverSondage/@Model.Guid" class="btn btn-block btn-danger justify-content-end" role="button">Désactiver</a>
                     </div>
                     <div class="col-lg-4">
                     </div>
                     <div class="col-lg-2">
-                        <a href="/Simpoll/CreationUtilisateur"><button type="button" class="btn btn-block btn-dark">Page d'accueil</button></a>
+                        <a href="/Simpoll/CreationUtilisateur" type="button" class="btn btn-block btn-dark">Page d'accueil</></a>
                     </div>
                 </div>
             </div>

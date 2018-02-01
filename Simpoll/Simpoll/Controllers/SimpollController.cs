@@ -38,21 +38,13 @@ namespace Simpoll.Controllers
         {
             bool choix_multiple = false;
 
-            if ((string)typeChoix == "choix_multiple")
+            if (typeChoix == "choix_multiple")
             {
                 choix_multiple = true;
             }
 
             //Gestion de la saisie utilisateur
-            //NullRéférence Exception
-            try
-            {
-                choix.RemoveAll(element => (string.IsNullOrWhiteSpace(element))); //Parcour la liste et retire les chaines vide ou null ou les espace
-            }
-            catch (Exception)
-            {
-                return new HttpNotFoundResult();
-            }
+            choix.RemoveAll(element => (string.IsNullOrWhiteSpace(element))); //Parcour la liste et retire les chaines vide ou null ou les espace
 
             if (choix.Count() < 2) // l'utilisateur doit saisir au moins deux choix de reponses
             {
@@ -65,8 +57,7 @@ namespace Simpoll.Controllers
             }
 
             //On crée un ID unique que l'on rentre en DB
-            Guid guid = Guid.NewGuid();
-            string myGuid = Convert.ToString(guid);
+            string myGuid = Convert.ToString(Guid.NewGuid());
             Sondage newSondage = new Sondage((string)question, choix_multiple, (int)idCreateur, myGuid);
 
             int idSondage;
@@ -83,7 +74,7 @@ namespace Simpoll.Controllers
             //TODO : revoir la partie localhost
             newSondage.UrlPartage = @"localhost:8870/Partage/Vote/" + Convert.ToString(idSondage);
             newSondage.UrlSuppression = @"localhost:8870/Partage/DesactiverSondage/" + Convert.ToString(myGuid);
-            newSondage.UrlResultat = @"localhost:8870/Partage/Resultat/"+ Convert.ToString(idSondage);
+            newSondage.UrlResultat = @"localhost:8870/Partage/Resultat/" + Convert.ToString(idSondage);
 
             //On met les URL en DB
             DAL.UpdateSondage(newSondage, idSondage);
@@ -108,7 +99,7 @@ namespace Simpoll.Controllers
 
             if (!string.IsNullOrWhiteSpace(monCreateur.EmailCreateur))
             {
-                EnvoiMail(newSondage, monCreateur);
+                Methodes.EnvoiMail(newSondage, monCreateur);
             }
 
             return Redirect(String.Format("/Partage/page_url/{0}", newSondage.Guid));
@@ -117,46 +108,8 @@ namespace Simpoll.Controllers
         public ActionResult page_creation_sondage(int id)
         {
             return View("page_creation_sondage", id);
-        }               
-
-        public void EnvoiMail(Sondage sondage, Createur createur)
-        {
-            string EmailEnvoyeur = "simpoll.sondage@gmail.com";
-            string password = "Simpoll68@";
-            string objet = "Votre sondage a été crée ";
-
-            string htmlBody = @"<!doctype html>
-                                            <html>
-                                                <body>
-                                                <headers>
-                                                    <img src=""https://image.noelshack.com/fichiers/2018/05/2/1517339614-simpoll.png"" alt=""Logo Simpoll""/>
-                                                </headers>
-                                                <div>
-                                                <h2>Merci " + createur.PrenomCreateur + @" d'avoir choisi Simpoll pour créer votre sondage</h2>
-                                                </div>
-                                                <p>Voici vos 3 liens :</p>
-                                                    <ul>
-                                                        <li>" + sondage.UrlPartage + @"</li>
-                                                        <li>" + sondage.UrlResultat + @"</li>
-                                                        <li>" + sondage.UrlSuppression + @"</li>
-                                                    </ul>
-                                                <p>La team Simpoll vous dit à bientôt pour de nouveaux sondage !!</p>
-                                                </body>
-                                                </html>";
-
-            SmtpClient smtp = new SmtpClient
-            {
-                Host = "smtp.gmail.com",
-                Port = 25,
-                EnableSsl = true,
-                DeliveryMethod = SmtpDeliveryMethod.Network,
-                Credentials = new NetworkCredential(EmailEnvoyeur, password),
-            };
-
-            MailMessage message = new MailMessage(EmailEnvoyeur, createur.EmailCreateur, objet, htmlBody);
-            message.IsBodyHtml = true;
-
-            smtp.Send(message);
         }
+
+
     }
 }

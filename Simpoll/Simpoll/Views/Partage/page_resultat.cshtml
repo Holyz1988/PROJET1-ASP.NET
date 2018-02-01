@@ -13,7 +13,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="/Content/style.css" />
+    <link href="https://fonts.googleapis.com/css?family=Francois+One" rel="stylesheet">
+    <link rel="stylesheet" href="~/Content/style.css" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
 </head>
 <body class="jolie">
@@ -53,16 +54,16 @@
                 </thead>
                 <tbody>
                     @{int i = 1;
-                    foreach (var reponse in Model.MesReponses)
-                    {
-                        <tr>
-                            <th scope="row">@i</th>
-                            <td>@reponse.IntituleReponse</td>
-                            <td>@reponse.NbVoteReponse votes</td>
-                            <td>@reponse.GetPourcentage(Model.Sondage) %</td>
-                        </tr>
-                    i++;
-                }
+                        foreach (var reponse in Model.MesReponses)
+                        {
+                            <tr>
+                                <th scope="row">@i</th>
+                                <td>@reponse.IntituleReponse</td>
+                                <td>@reponse.NbVoteReponse votes</td>
+                                <td>@reponse.GetPourcentage(Model.Sondage) %</td>
+                            </tr>
+                            i++;
+                        }
                     }
                 </tbody>
             </table>
@@ -72,12 +73,12 @@
         </div>
         <div class="row">
             <div class="col-lg-2">
-                <a href="/Simpoll/CreationUtilisateur"><button type="button" class="btn btn-dark">Page d'accueil</button></a>
+                <a href="/Simpoll/CreationUtilisateur" role="button" class="btn btn-dark">Page d'accueil</a>
             </div>
             <div class="col-lg-8">
             </div>
             <div class="col-lg-2">
-                <a href="/Partage/Resultat/@Model.Sondage.IdSondage"><button type="button" class="btn btn-dark">Résultats</button></a>
+                <a href="/Partage/Resultat/@Model.Sondage.IdSondage" role="button" class="btn btn-dark">Résultats</></a>
             </div>
         </div>
     </section>

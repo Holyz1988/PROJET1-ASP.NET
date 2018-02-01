@@ -134,6 +134,7 @@
     </Compile>
     <Compile Include="Models\Createur.cs" />
     <Compile Include="Models\DAL.cs" />
+    <Compile Include="Models\Methodes.cs" />
     <Compile Include="Models\Reponse.cs" />
     <Compile Include="Models\Sondage.cs" />
     <Compile Include="Models\SondageAvecReponse.cs" />
@@ -148,8 +149,7 @@
     <Content Include="Views\Simpoll\page_creation_sondage.cshtml" />
     <Content Include="Views\Simpoll\page_creation_utilisateur.cshtml" />
     <Content Include="Views\Partage\page_url.cshtml" />
-    <Content Include="Views\Partage\vote_choix_unique.cshtml" />
-    <Content Include="Views\Partage\vote_choix_multiple.cshtml" />
+    <Content Include="Views\Partage\page_vote.cshtml" />
     <Content Include="Views\Shared\Error_choix_multiple.cshtml" />
     <Content Include="Views\Partage\page_resultat.cshtml" />
     <Content Include="Views\Partage\disable_sondage.cshtml" />
@@ -166,7 +166,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\EnvoieMail\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

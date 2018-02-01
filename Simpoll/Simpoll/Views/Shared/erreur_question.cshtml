@@ -1,4 +1,4 @@
-﻿@model int
+﻿@model int?
 @{
     Layout = null;
 }
@@ -6,7 +6,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <title>Title</title>
+    <title>Il faut une question</title>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
 </head>
 
-<body>
+<body class="jolie">
     <nav class="container-fluid navbar navbar-expand-lg navbar-dark bg-dark justify-content-end">
         <ul class="nav justify-content-end">
             <li class="nav-item">
@@ -46,15 +46,8 @@
                 <p class="lead">Veuillez saisir la question</p>
             </div>
         </div>
-        <div class="row">
-            <div class="col-lg-2">
-                <a href="/Simpoll/CreationUtilisateur"><button type="button" class="btn btn-dark">Page d'accueil</button></a>
-            </div>
-            <div class="col-lg-8">
-            </div>
-            <div class="col-lg-2">
-                <a href="/Simpoll/page_creation_sondage/@Model"><button type="button" class="btn btn-dark">Retour</button></a>
-            </div>
+        <div>
+            <a href="/Simpoll/page_creation_sondage/@Model" role="button" class="btn btn-dark">Retour</a>
         </div>
     </section>
     <footer></footer>

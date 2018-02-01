@@ -12,10 +12,10 @@ namespace Simpoll.Controllers
 {
     public class PartageController : Controller
     {
+        //Récupère le sondage avec le guid, ce qui permet de sécuriser la page contenant les URLs
         public ActionResult page_url(string id)
         {
-            Sondage monSondage = DAL.GetSondageByGuid(id);
-            return View("page_url", monSondage);
+            return View("page_url", DAL.GetSondageByGuid(id));
         }
 
         public ActionResult Vote(int? id)
@@ -38,26 +38,17 @@ namespace Simpoll.Controllers
                 return new HttpNotFoundResult();
             }
 
-            SondageAvecReponse SondageComplet = new SondageAvecReponse(monSondage, mesReponse);
-
             if (monSondage.Actif)
             {
-                if (!monSondage.ChoixMultiple)
-                {
-                    return View("vote_choix_unique", SondageComplet);
-                }
-
-                return View("vote_choix_multiple", SondageComplet);
-
+                return View("page_vote", new SondageAvecReponse(monSondage, mesReponse));
             }
             else
             {
                 return Redirect("/Partage/Resultat/" + id);
             }
-
         }
 
-        public ActionResult VoteSondageUnique(int? choixReponse, int? id)
+        public ActionResult VoteSondage(List<int> choixReponse, int? id)
         {
             //Renvoi un 404 si l'id est null
             if (id == null)
@@ -67,9 +58,11 @@ namespace Simpoll.Controllers
             //On prend en compte le vote sinon
 
             List<Reponse> mesReponse;
+            Sondage monSondage;
 
             try
             {
+                monSondage = DAL.GetSondageById((int)id);
                 mesReponse = DAL.GetAllReponse((int)id);
             }
             catch (Exception)
@@ -78,13 +71,19 @@ namespace Simpoll.Controllers
             }
 
             //Si un choix de réponse a été séléctionné, on prend en compte le vote
-            if (choixReponse.HasValue)
+            if (monSondage.Actif)
             {
+                if (choixReponse == null)
+                {
+                    return View("Error_choix_multiple");
+                }
+
                 HttpCookie cookie = Request.Cookies["SondageCookie" + id];
                 if (cookie == null)
                 {
                     // Cookie non trouvé, on en crée un nouveau
                     cookie = new HttpCookie("SondageCookie" + id);
+                    Response.Cookies.Add(cookie);
                 }
                 else
                 {
@@ -92,66 +91,20 @@ namespace Simpoll.Controllers
                     return View("erreur_cookie", id);
                 }
 
-                Response.Cookies.Add(cookie);
-
-                mesReponse[(int)choixReponse].NbVoteReponse++;
-                DAL.UpdateNombreVoteReponse(mesReponse[(int)choixReponse]);
-
+                foreach (var choix in choixReponse)
+                {
+                    mesReponse[(int)choix].NbVoteReponse++;
+                    DAL.UpdateNombreVoteReponse(mesReponse[(int)choix]);
+                }
                 //On récupère le sondage et on incrémente le nombre de votant max
-                Sondage monSondage = DAL.GetSondageById((int)id);
                 monSondage.NbVotant++;
                 DAL.UpdateNombreVotant(monSondage);
-
                 SondageAvecReponse monSondageVote = new SondageAvecReponse(monSondage, mesReponse);
 
                 return Redirect(String.Format("Resultat/{0}", id));
             }
 
             return Redirect(String.Format("Resultat/{0}", id));
-        }
-
-        public ActionResult VoteSondageMultiple(List<int> choixReponse, int? id)
-        {
-            if (id == null)
-            {
-                return new HttpNotFoundResult();
-            }
-
-            List<Reponse> mesReponse = DAL.GetAllReponse((int)id);
-
-            if (choixReponse == null)
-            {
-                return View("Error_choix_multiple");
-            }
-
-            HttpCookie cookie = Request.Cookies["SondageCookie" + id];
-            if (cookie == null)
-            {
-                // Cookie non trouvé, on en crée un nouveau
-                cookie = new HttpCookie("SondageCookie" + id);
-            }
-            else
-            {
-                // redirige vers la page de résultats
-                return View("erreur_cookie", id);
-            }
-
-            Response.Cookies.Add(cookie);
-            //Si la checkbox est coché, on valide en DB
-            foreach (var choix in choixReponse)
-            {
-                mesReponse[choix].NbVoteReponse++;
-                DAL.UpdateNombreVoteReponse(mesReponse[choix]);
-            }
-            Sondage monSondage = DAL.GetSondageById((int)id);
-
-            //On incrémente le nombre de votant
-            monSondage.NbVotant++;
-            DAL.UpdateNombreVotant(monSondage);
-            SondageAvecReponse monSondageVote = new SondageAvecReponse(monSondage, mesReponse);
-
-            return Redirect(String.Format("Resultat/{0}", id));
-
         }
 
         public ActionResult DesactiverSondage(string id)
