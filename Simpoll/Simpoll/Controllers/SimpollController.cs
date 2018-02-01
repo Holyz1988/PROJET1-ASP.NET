@@ -84,7 +84,6 @@ namespace Simpoll.Controllers
                 }
             }
 
-            //On met les réponses en DB
             foreach (var reponse in mesReponses)
             {
                 DAL.AddReponse(reponse);
@@ -92,14 +91,17 @@ namespace Simpoll.Controllers
 
             Createur monCreateur = DAL.GetCreateurById(idSondage);
 
-            //Envoie un mail au createur du sondage
-
             if (!string.IsNullOrWhiteSpace(monCreateur.EmailCreateur))
             {
                 EnvoiMail(newSondage, monCreateur);
             }
 
-            return View("page_url", DAL.GetSondageById(idSondage));
+            return Redirect(String.Format("/Simpoll/page_url/{0}", idSondage));
+        }
+
+        public ActionResult page_url(int? id)
+        {
+            return View("page_url", DAL.GetSondageById((int)id));
         }
 
         public ActionResult FormulaireUtilisateur(string nomCreateur, string prenomCreateur, string emailCreateur)
@@ -115,9 +117,14 @@ namespace Simpoll.Controllers
                 return new HttpNotFoundResult();
             }
 
-            return View("page_creation_sondage", monCreateur);
+            return Redirect(String.Format("/Simpoll/page_creation_sondage/{0}", monCreateur.IdCreateur));
+
         }
 
+        public ActionResult page_creation_sondage(int id)
+        {
+            return View("page_creation_sondage", id);
+        }
         public ActionResult Vote(int? idSondage)
         {
             if (idSondage == null)
@@ -205,10 +212,10 @@ namespace Simpoll.Controllers
 
                 SondageAvecReponse monSondageVote = new SondageAvecReponse(monSondage, mesReponse);
 
-                return View("page_resultat", monSondageVote);
+                return Redirect("Resultat?idSondage=" + idSondage);
             }
 
-            return View("Error_choix_multiple");
+            return Redirect("Resultat?idSondage=" + idSondage);
         }
 
         public ActionResult VoteSondageMultiple(List<int> choixReponse, int? idSondage)
@@ -235,7 +242,7 @@ namespace Simpoll.Controllers
             else
             {
                 // redirige vers la page de résultats
-                return View("erreur_cookie");
+                return View("erreur_cookie", idSondage);
             }
 
             Response.Cookies.Add(cookie);

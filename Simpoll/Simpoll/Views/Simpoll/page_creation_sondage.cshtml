@@ -1,4 +1,4 @@
-﻿@model Simpoll.Models.Createur
+﻿@model int
 @{
     Layout = null;
 }
@@ -40,8 +40,8 @@
         <img src="/Content/simpoll.png" alt="Logo Simpoll" />
     </header>
     <section class="container">
-        <form action="CreationSondage" method="post">
-            <input type="hidden" name="idCreateur" value="@Model.IdCreateur" />
+        <form action="/Simpoll/CreationSondage" method="post">
+            <input type="hidden" name="idCreateur" value="@Model" />
             <div class="form-group mb-5">
                 <input type="text" class="form-control" name="question" placeholder="Saisir une question" />
             </div>
