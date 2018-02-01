@@ -127,6 +127,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\PartageController.cs" />
     <Compile Include="Controllers\SimpollController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -146,15 +147,14 @@
     </Content>
     <Content Include="Views\Simpoll\page_creation_sondage.cshtml" />
     <Content Include="Views\Simpoll\page_creation_utilisateur.cshtml" />
-    <Content Include="Views\Simpoll\page_url.cshtml" />
-    <Content Include="Views\Simpoll\vote_choix_unique.cshtml" />
-    <Content Include="Views\Simpoll\vote_choix_multiple.cshtml" />
+    <Content Include="Views\Partage\page_url.cshtml" />
+    <Content Include="Views\Partage\vote_choix_unique.cshtml" />
+    <Content Include="Views\Partage\vote_choix_multiple.cshtml" />
     <Content Include="Views\Shared\Error_choix_multiple.cshtml" />
-    <Content Include="Views\Simpoll\page_resultat.cshtml" />
-    <Content Include="Views\Simpoll\disable_sondage.cshtml" />
+    <Content Include="Views\Partage\page_resultat.cshtml" />
+    <Content Include="Views\Partage\disable_sondage.cshtml" />
     <Content Include="Views\Shared\disabled_sondage.cshtml" />
-    <Content Include="Views\Shared\erreur_zero_reponse.cshtml" />
-    <Content Include="Views\Shared\erreur_une_reponse.cshtml" />
+    <Content Include="Views\Shared\erreur_nb_reponse.cshtml" />
     <Content Include="Views\Shared\erreur_question.cshtml" />
     <Content Include="Views\Shared\erreur_cookie.cshtml" />
     <None Include="Web.Debug.config">

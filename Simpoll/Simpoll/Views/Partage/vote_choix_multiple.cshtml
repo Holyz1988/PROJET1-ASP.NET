@@ -45,8 +45,8 @@
             <h1>@Model.Sondage.QuestionSondage</h1>
         </div>
         <div class="container">
-            <form action="VoteSondageMultiple" method="post">
-                <input type="hidden" name="idSondage" value="@Model.Sondage.IdSondage" />
+            <form action="/Partage/VoteSondageMultiple" method="post">
+                <input type="hidden" name="id" value="@Model.Sondage.IdSondage" />
                 @{
                     int i = 0;
                     foreach (var reponse in Model.MesReponses)
@@ -65,12 +65,15 @@
                     <p class="p-3 mb-2 bg-primary text-white">Il y a @Model.Sondage.NbVotant personnes qui ont déjà participées</p>
                 <div class="row">
                     <div class="col-lg-2">
-                        <button type="submit" class="btn btn-danger">VALIDER</button>
+                        <button type="submit" class="btn btn-primary">VALIDER</button>
                     </div>
-                    <div class="col-lg-8">
+                    <div class="col-lg-6">
                     </div>
                     <div class="col-lg-2">
                         <a href="/Simpoll/CreationUtilisateur"><button type="button" class="btn btn-dark">Page d'accueil</button></a>
+                    </div>
+                    <div class="col-lg-2">
+                        <a href="/Partage/Resultat/@Model.Sondage.IdSondage"><button type="button" class="btn btn-dark">Résultats</button></a>
                     </div>
                 </div>
             </form>

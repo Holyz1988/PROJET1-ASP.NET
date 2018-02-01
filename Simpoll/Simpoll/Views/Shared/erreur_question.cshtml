@@ -1,4 +1,4 @@
-﻿
+﻿@model int
 @{
     Layout = null;
 }
@@ -46,8 +46,15 @@
                 <p class="lead">Veuillez saisir la question</p>
             </div>
         </div>
-        <div class="col-lg-2">
-            <a href="/Simpoll/CreationUtilisateur"><button type="button" class="btn btn-dark">Page d'accueil</button></a>
+        <div class="row">
+            <div class="col-lg-2">
+                <a href="/Simpoll/CreationUtilisateur"><button type="button" class="btn btn-dark">Page d'accueil</button></a>
+            </div>
+            <div class="col-lg-8">
+            </div>
+            <div class="col-lg-2">
+                <a href="/Simpoll/page_creation_sondage/@Model"><button type="button" class="btn btn-dark">Retour</button></a>
+            </div>
         </div>
     </section>
     <footer></footer>

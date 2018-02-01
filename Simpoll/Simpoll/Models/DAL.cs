@@ -226,7 +226,7 @@ namespace Simpoll.Models
             urlResultat = Convert.ToString(monReader["UrlResultat"]);
             nbVotant = Convert.ToInt32(monReader["NbVotant"]);
             fkIdCreateur = Convert.ToInt32(monReader["FKIdCreateur"]);
-            guid = Convert.ToString(monReader["Guid"]);
+            myGuid = Convert.ToString(monReader["Guid"]);
             actif = Convert.ToBoolean(monReader["Actif"]);
             Sondage monSondage = new Sondage(id, questionSondage, choixMultiple, urlPartage, urlSuppression, urlResultat, nbVotant, fkIdCreateur, myGuid, actif);
 
