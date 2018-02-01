@@ -131,8 +131,8 @@ namespace Simpoll.Controllers
                                                 <headers>
                                                     <img src=""https://image.noelshack.com/fichiers/2018/05/2/1517339614-simpoll.png"" alt=""Logo Simpoll""/>
                                                 </headers>
-                                                <div>
-                                                <h2>Merci " + createur.PrenomCreateur + @" d'avoir choisi Simpoll pour créer votre sondage</h2>
+                                                <div>                       
+                                                <h2><Merci " + createur.PrenomCreateur + @" d'avoir choisi Simpoll pour créer votre sondage</h2>
                                                 </div>
                                                 <p>Voici vos 3 liens :</p>
                                                     <ul>
@@ -140,7 +140,7 @@ namespace Simpoll.Controllers
                                                         <li>" + sondage.UrlResultat + @"</li>
                                                         <li>" + sondage.UrlSuppression + @"</li>
                                                     </ul>
-                                                <p>La team Simpoll vous dit à bientôt pour de nouveaux sondage !!</p>
+                                                <p>La team Simpoll vous dit à bientôt pour de nouveaux sondage !!</p>                                          
                                                 </body>
                                                 </html>";
 
