@@ -58,27 +58,47 @@
                         {
                             <tr>
                                 <th scope="row">@i</th>
-                                <td>@reponse.IntituleReponse</td>
-                                <td>@reponse.NbVoteReponse votes</td>
-                                <td>@reponse.GetPourcentage(Model.Sondage) %</td>
+                                @{
+                                    if (reponse.NbVoteReponse <= 1)
+                                    {
+                                        <td>@reponse.IntituleReponse</td>
+                                        <td>@reponse.NbVoteReponse vote</td>
+                                        <td>@reponse.GetPourcentage(Model.Sondage) %</td>
+                                    }
+                                    else
+                                    {
+                                        <td>@reponse.IntituleReponse</td>
+                                        <td>@reponse.NbVoteReponse votes</td>
+                                        <td>@reponse.GetPourcentage(Model.Sondage) %</td>
+                                    }
+                                }
                             </tr>
-                            i++;
-                        }
+                                        i++;
+                                    }
                     }
                 </tbody>
             </table>
             <div>
-                <p class="p-3 mb-2 bg-light">Il y a @Model.Sondage.NbVotant personnes qui ont déjà participées au sondage</p>
+                @{
+                    if (Model.Sondage.NbVotant <= 1)
+                    {
+                        <p class="p-3 mb-2 bg-light">Il y a @Model.Sondage.NbVotant personne qui a déjà participé</p>
+                    }
+                    else
+                    {
+                        <p class="p-3 mb-2 bg-light">Il y a @Model.Sondage.NbVotant personnes qui ont déjà participées</p>
+                    }
+                }
             </div>
         </div>
         <div class="row">
             <div class="col-lg-2">
-                <a href="/Simpoll/CreationUtilisateur" role="button" class="btn btn-dark">Page d'accueil</a>
+                <a href="/Simpoll/CreationUtilisateur" role="button" class="btn btn-block btn-primary">Page d'accueil</a>
             </div>
             <div class="col-lg-8">
             </div>
             <div class="col-lg-2">
-                <a href="/Partage/Resultat/@Model.Sondage.IdSondage" role="button" class="btn btn-dark">Résultats</></a>
+                <a href="/Partage/Vote/@Model.Sondage.IdSondage" role="button" class="btn btn-block btn-primary">Votez</></a>
             </div>
         </div>
     </section>

@@ -54,11 +54,7 @@
                     {
 
                         <div class="form-group ">
-                            <label class="custom-control custom-radio">
-                                <input type="radio" id="radio2" name="typeChoix" value="choix_multiple" class="custom-control-input">
-                                <span class="custom-control-indicator"></span>
-                                <span class="custom-control-description">Choix multiple</span>
-                            </label>
+
                             <label>
                                 <input name="choixReponse" type="checkbox" value=@i id="@i" />
                                 <!--<input type="hidden" value="false" name="choixReponse[@i]" />-->
@@ -73,17 +69,32 @@
                     foreach (var reponse in Model.MesReponses)
                     {
                         <div class="form-group ">
+                            <label class="custom-control custom-radio">
+                                <input type="radio" id="radio2" name="choixReponse" value=@i class="custom-control-input">
+                                <span class="custom-control-indicator"></span>
+                                <span class="custom-control-description">@reponse.IntituleReponse</span>
+                            </label>
+                            <!--
                             <label>
                                 <input name="choixReponse" type="radio" value=@i id=@i />
                                 @reponse.IntituleReponse
                             </label>
+                                -->
                         </div>
                         i++;
                     }
                 }
             }
-
-            <p class="p-3 mb-2 bg-primary text-white">Il y a @Model.Sondage.NbVotant personnes qui ont déjà participées</p>
+            @{
+                if (Model.Sondage.NbVotant <= 1)
+                {
+                    <p class="p-3 mb-2 bg-primary text-white">Il y a @Model.Sondage.NbVotant personne qui à déjà participé</p>
+                }
+                else
+                {
+                    <p class="p-3 mb-2 bg-primary text-white">Il y a @Model.Sondage.NbVotant personnes qui ont déjà participées</p>
+                }
+            }
             <div class="row">
                 <div class="col-lg-2">
                     <button type="submit" class="btn btn-block btn-primary">VALIDER</button>

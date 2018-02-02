@@ -75,7 +75,7 @@ namespace Simpoll.Controllers
             {
                 if (choixReponse == null)
                 {
-                    return View("Error_choix_multiple");
+                    return Redirect(string.Format("PageErreurReponse/{0}", id));
                 }
 
                 HttpCookie cookie = Request.Cookies["SondageCookie" + id];
@@ -99,7 +99,7 @@ namespace Simpoll.Controllers
                 //On récupère le sondage et on incrémente le nombre de votant max
                 monSondage.NbVotant++;
                 DAL.UpdateNombreVotant(monSondage);
-                SondageAvecReponse monSondageVote = new SondageAvecReponse(monSondage, mesReponse);
+                //SondageAvecReponse monSondageVote = new SondageAvecReponse(monSondage, mesReponse);
 
                 return Redirect(String.Format("Resultat/{0}", id));
             }
@@ -162,6 +162,16 @@ namespace Simpoll.Controllers
 
                 return View("page_resultat", SondageComplet);
             }
+        }
+
+        public ActionResult PageErreurReponse(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpNotFoundResult();
+            }
+
+            return View("Error_choix_multiple", id);
         }
     }
 }
