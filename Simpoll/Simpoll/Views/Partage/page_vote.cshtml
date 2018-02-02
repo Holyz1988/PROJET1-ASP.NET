@@ -15,6 +15,7 @@
     <!-- Bootstrap CSS -->
     <link href="https://fonts.googleapis.com/css?family=Francois+One" rel="stylesheet">
     <link rel="stylesheet" href="~/Content/style.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
 </head>
 <body class="jolie">
@@ -53,10 +54,10 @@
                     foreach (var reponse in Model.MesReponses)
                     {
 
-                        <div class="form-group ">
+                        <div class="form-control checkbox checkbox-primary">
 
                             <label>
-                                <input name="choixReponse" type="checkbox" value=@i id="@i" />
+                                <input name="choixReponse" type="checkbox" class="styled" value=@i id="@i" />
                                 <!--<input type="hidden" value="false" name="choixReponse[@i]" />-->
                                 @reponse.IntituleReponse
                             </label>

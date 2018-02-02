@@ -1,4 +1,4 @@
-﻿
+﻿@model Simpoll.Models.Sondage
 @{
     Layout = null;
 }
@@ -10,6 +10,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="Refresh" content="3;url=/Partage/Resultat/@Model.IdSondage" />
     <!-- Bootstrap CSS -->
     <link href="https://fonts.googleapis.com/css?family=Francois+One" rel="stylesheet">
     <link rel="stylesheet" href="~/Content/style.css" />
@@ -43,10 +44,18 @@
         <div class="jumbotron jumbotron-fluid">
             <div class="container">
                 <h1 class="display-4">Votre sondage a bien été désactivé.</h1>
+                <p>Vous allez être redirigé dans 3 secondes ...</p>
             </div>
         </div>
-        <div class="col-lg-2">
-            <a href="/Simpoll/CreationUtilisateur" type="button" class="btn btn-block btn-dark">Page d'accueil</></a>
+        <div class="row">
+            <div class="col-lg-2">
+                <a href="/Simpoll/CreationUtilisateur" type="button" class="btn btn-block btn-primary">Page d'accueil</></a>
+            </div>
+            <div class="col-lg-8">
+            </div>
+            <div class="col-lg-2">
+                <a href="/Partage/Resultat/@Model.IdSondage" type="button" class="btn btn-block btn-primary justify-content-end">Résultats</a>
+            </div>
         </div>
     </section>
     <footer></footer>

@@ -44,7 +44,7 @@ namespace Simpoll.Controllers
             }
             else
             {
-                return Redirect("/Partage/Resultat/" + id);
+                return View("disabled_sondage", monSondage);
             }
         }
 
@@ -104,7 +104,7 @@ namespace Simpoll.Controllers
                 return Redirect(String.Format("Resultat/{0}", id));
             }
 
-            return Redirect(String.Format("Resultat/{0}", id));
+            return Redirect(String.Format("ConfirmationInactif/{0}", monSondage.Guid));
         }
 
         public ActionResult DesactiverSondage(string id)
@@ -129,11 +129,12 @@ namespace Simpoll.Controllers
             {
                 monSondage.Actif = false;
                 DAL.DisableSondage(monSondage);
-                return View("disable_sondage");
+
+                return View("disable_sondage", monSondage);
             }
             else
             {
-                return View("disabled_sondage");
+                return View("disabled_sondage", monSondage);
             }
         }
 
