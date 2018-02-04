@@ -37,7 +37,7 @@
         </ul>
     </nav>
     <header class="container">
-        <img src="/Content/simpoll.png" alt="Logo Simpoll" />
+        <a href="/Simpoll/CreationUtilisateur"><img src="/Content/simpoll.png" alt="Logo Simpoll" /></a>
     </header>
     <section class="container">
         <form action="/Simpoll/CreationSondage" method="post">
@@ -54,14 +54,48 @@
             <div class="form-group">
                 <input type="text" class="form-control col-lg-6" name="choix" placeholder="Saisir un choix de réponse" />
             </div>
+            <div class="form-group">
+                <input type="text" class="form-control col-lg-6" name="choix" placeholder="Saisir un choix de réponse" />
+            </div>
+            <div class="form-group" id="dynamicInput">
+                <input type="text" class="form-control col-lg-6" name="choix" placeholder="Saisir un choix de réponse" />
+            </div>
+            <input type="button" class="btn btn-warning" value="Ajouter un choix de réponse" onClick="addInput('dynamicInput');">
+            <script type="text/javascript">
+                var counter = 5;
+
+                var limit = 15;
+
+                function addInput(divName) {
+
+                    if (counter == limit) {
+
+                        alert("Vous avez atteint la limite de " + counter + " choix possibles");
+
+                    }
+
+                    else {
+
+                        var newdiv = document.createElement('div');
+
+                        newdiv.innerHTML = "<div class='form-group'><input type='text' class='form-control col-lg-6' name='choix' placeholder='Saisir un choix de réponse' /></div>";
+
+                        document.getElementById(divName).appendChild(newdiv);
+
+                        counter++;
+
+                    }
+
+                }
+            </script>
             <div class="mb-4">
                 <label class="custom-control custom-radio">
-                    <input type="radio" id="radio1" name="typeChoix" value="choix_unique"  class="custom-control-input" checked>
+                    <input type="radio" id="radio1" name="typeChoix" value="choix_unique" class="custom-control-input" checked>
                     <span class="custom-control-indicator"></span>
                     <span class="custom-control-description">Choix unique</span>
                 </label>
                 <label class="custom-control custom-radio">
-                    <input type="radio" id="radio2" name="typeChoix" value="choix_multiple"  class="custom-control-input">
+                    <input type="radio" id="radio2" name="typeChoix" value="choix_multiple" class="custom-control-input">
                     <span class="custom-control-indicator"></span>
                     <span class="custom-control-description">Choix multiple</span>
                 </label>
@@ -79,10 +113,10 @@
         </form>
     </section>
     <footer></footer>
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
-</body>
-</html>
+    <!--Optional JavaScript -- >
+                    <!--jQuery first, then Popper.js, then Bootstrap JS -- >
+                        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+                <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+    </body>
+    </html>
