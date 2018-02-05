@@ -123,7 +123,7 @@ namespace Simpoll.Controllers
             }
 
             //Sinon on renvoi la vue du sondage désactivé
-            return Redirect(String.Format("ConfirmationInactif/{0}", monSondage.Guid));
+            return Redirect(String.Format("DesactiverSondage/{0}", monSondage.Guid));
         }
 
         /* Action permettant de désactiver le sondage

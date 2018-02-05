@@ -1,3 +1,22 @@
+@import url(//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css);
+
 .jolie {
     font-family: 'Francois One', sans-serif;
+}
+
+.fancy-checkbox input[type="checkbox"] {
+    display: none;
+}
+ 
+.fancy-checkbox span:before {
+    font-family: "FontAwesome";
+    font-style: normal;
+    width: 1em;
+    height: 1em;
+    content: '\f10c';
+    margin-right: .3em;
+}
+ 
+.fancy-checkbox input[type="checkbox"]:checked ~ span:before {
+    content: '\f05d';
 }

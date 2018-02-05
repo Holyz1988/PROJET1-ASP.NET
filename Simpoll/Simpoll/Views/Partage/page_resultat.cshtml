@@ -136,12 +136,12 @@
                     @foreach (var choix in Model.MesReponses)
                     {
                         <text>
-                            "@choix.IntituleReponse",
+                            '@choix.IntituleReponse',
                         </text>
                         }
                 ],
                 datasets: [{
-                    label: "@Model.Sondage.NbVotant participants",
+                    label: "@Model.Sondage.NbVotant participant(s)",
                     data: [
                         @foreach(var choix in Model.MesReponses)
                         {
@@ -166,7 +166,7 @@
     </script>
     <script type="text/javascript">
         anychart.onDocumentReady(function () {
-            // create pie chart with passed data
+            // Création d'un Graphique en secteur
             var chart = anychart.pie([
                 @foreach(var reponse in Model.MesReponses)
                             {
@@ -176,27 +176,27 @@
                             }
             ]);
 
-            // set chart title text settings
-            chart.title('@Model.Sondage.QuestionSondage');
-            // set chart labels position to outside
+            // Définition du titre du graphique
+            chart.title('@String.Format(Model.Sondage.QuestionSondage)');
+            // Met les label du graphique en dehors du graphique
             chart.labels().position('outside');
-            // set legend title settings
+            // Permet de déclarer le titre du graphique
             chart.legend().title()
                 .enabled(true)
                 .text('Choix de réponse :')
                 .padding([0, 0, 10, 0]);
 
-            // set legend position and items layout
+            // Réglage de la légende du graphique
             chart.legend()
                 .position('center-bottom')
                 .itemsLayout('horizontal')
                 .align('center');
 
-            // set container id for the chart
+            // Permet de définir le conteneur du graphique
             chart.container('chart');
 
             chart.fill("aquastyle");
-            // initiate chart drawing
+            // Déssine le graphique
             chart.draw();
         });
     </script>

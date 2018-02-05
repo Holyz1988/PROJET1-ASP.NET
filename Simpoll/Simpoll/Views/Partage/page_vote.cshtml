@@ -12,6 +12,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-checkbox/1.4.0/bootstrap-checkbox.min.js" defer></script>
     <!-- Bootstrap CSS -->
     <link href="https://fonts.googleapis.com/css?family=Francois+One" rel="stylesheet">
     <link rel="stylesheet" href="~/Content/style.css" />
@@ -51,25 +52,24 @@
                 int i = 0;
                 if (Model.Sondage.ChoixMultiple)
                 {
-                    foreach (var reponse in Model.MesReponses)
-                    {
-
-                        <div class="form-control checkbox checkbox-primary">
-
-                            <label>
+                    <div class="form-group">
+                        @foreach (var reponse in Model.MesReponses)
+                        {
+                            <div class="form-control">
+                                <label class="fancy-checkbox">
                                 <input name="choixReponse" type="checkbox" class="styled" value=@i id="@i" />
-                                <!--<input type="hidden" value="false" name="choixReponse[@i]" />-->
-                                @reponse.IntituleReponse
-                            </label>
-                        </div>
-                        i++;
-                    }
+                                <span>@reponse.IntituleReponse</span>
+                                </label>
+                            </div>
+                            i++;
+                        }
+                    </div>
                 }
                 else
                 {
                     foreach (var reponse in Model.MesReponses)
                     {
-                        <div class="form-group ">
+                        <div class="form-group">
                             <label class="custom-control custom-radio">
                                 <input type="radio" id="radio2" name="choixReponse" value=@i class="custom-control-input">
                                 <span class="custom-control-indicator"></span>
