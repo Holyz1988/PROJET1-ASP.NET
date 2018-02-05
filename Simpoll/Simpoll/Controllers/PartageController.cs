@@ -172,7 +172,7 @@ namespace Simpoll.Controllers
                 return new HttpNotFoundResult();
             }
 
-            return View("Error_choix_multiple", id);
+            return View("erreur_vote", id);
         }
     }
 }

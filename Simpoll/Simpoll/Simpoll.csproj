@@ -150,7 +150,7 @@
     <Content Include="Views\Simpoll\page_creation_utilisateur.cshtml" />
     <Content Include="Views\Partage\page_url.cshtml" />
     <Content Include="Views\Partage\page_vote.cshtml" />
-    <Content Include="Views\Shared\Error_choix_multiple.cshtml" />
+    <Content Include="Views\Shared\erreur_vote.cshtml" />
     <Content Include="Views\Partage\page_resultat.cshtml" />
     <Content Include="Views\Partage\disable_sondage.cshtml" />
     <Content Include="Views\Shared\disabled_sondage.cshtml" />

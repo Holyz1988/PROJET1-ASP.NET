@@ -13,6 +13,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.bundle.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Francois+One" rel="stylesheet">
     <script src="https://cdn.anychart.com/releases/8.1.0/js/anychart-base.min.js"></script>
     <script src="https://cdn.anychart.com/releases/8.1.0/js/anychart-ui.min.js"></script>
@@ -24,7 +28,7 @@
     <style>
         html, body, #chart {
             width: 100%;
-            height: 100%;
+            height: 80%;
             margin: 0;
             padding: 0;
         }
@@ -36,17 +40,17 @@
             <li class="nav-item">
                 <div class="form-inline">
                     <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                    <button class="btn btn-outline-success my-2 my-sm-0 text-light" type="submit">Search</button>
                 </div>
             </li>
             <li class="nav-item">
-                <a class="nav-link">Sign In</a>
+                <a class="nav-link text-light">Sign In</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link">|</a>
+                <a class="nav-link text-light">|</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link">Sign Out</a>
+                <a class="nav-link text-light">Sign Out</a>
             </li>
         </ul>
     </nav>
@@ -54,55 +58,60 @@
         <a href="/Simpoll/CreationUtilisateur"><img src="/Content/simpoll.png" alt="Logo Simpoll" /></a>
     </header>
     <section class="container">
-        <div>
-            <h1>@Model.Sondage.QuestionSondage</h1>
-            <table class="table table-striped table-inverse">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Intitulé du choix</th>
-                        <th>Nombre de votes</th>
-                        <th>Résultat</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @{int i = 1;
-                        foreach (var reponse in Model.MesReponses)
-                        {
-                            <tr>
-                                <th scope="row">@i</th>
-                                @{
-                                    if (reponse.NbVoteReponse <= 1)
-                                    {
-                                        <td>@reponse.IntituleReponse</td>
-                                        <td>@reponse.NbVoteReponse vote</td>
-                                        <td>@reponse.GetPourcentage(Model.Sondage) %</td>
+        <div class="row">
+            <div class="col-lg-6">
+                <h1>@Model.Sondage.QuestionSondage</h1>
+                <table class="table table-striped table-inverse">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Intitulé du choix</th>
+                            <th>Nombre de votes</th>
+                            <th>Résultat</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{int i = 1;
+                            foreach (var reponse in Model.MesReponses)
+                            {
+                                <tr>
+                                    <th scope="row">@i</th>
+                                    @{
+                                        if (reponse.NbVoteReponse <= 1)
+                                        {
+                                            <td>@reponse.IntituleReponse</td>
+                                            <td>@reponse.NbVoteReponse vote</td>
+                                            <td>@reponse.GetPourcentage(Model.Sondage) %</td>
+                                        }
+                                        else
+                                        {
+                                            <td>@reponse.IntituleReponse</td>
+                                            <td>@reponse.NbVoteReponse votes</td>
+                                            <td>@reponse.GetPourcentage(Model.Sondage) %</td>
+                                        }
                                     }
-                                    else
-                                    {
-                                        <td>@reponse.IntituleReponse</td>
-                                        <td>@reponse.NbVoteReponse votes</td>
-                                        <td>@reponse.GetPourcentage(Model.Sondage) %</td>
-                                    }
-                                }
-                            </tr>
-                            i++;
+                                </tr>
+                                            i++;
+                                        }
                         }
-                    }
-                </tbody>
-            </table>
-            <div>
-                @{
-                    if (Model.Sondage.NbVotant <= 1)
-                    {
-                        <p class="p-3 mb-2 bg-light">Il y a @Model.Sondage.NbVotant personne qui a déjà participé</p>
-                    }
-                    else
-                    {
-                        <p class="p-3 mb-2 bg-light">Il y a @Model.Sondage.NbVotant personnes qui ont déjà participées</p>
-                    }
-                }
+                    </tbody>
+                </table>
             </div>
+            <div id="canvas-holder" class="col-lg-6" style="width:20%">
+                <canvas id="myChart" width="50" height="50"></canvas>
+            </div>
+        </div>
+        <div>
+            @{
+                if (Model.Sondage.NbVotant <= 1)
+                {
+                    <p class="p-3 mb-2 bg-light">Il y a @Model.Sondage.NbVotant personne qui a déjà participé</p>
+                }
+                else
+                {
+                    <p class="p-3 mb-2 bg-light">Il y a @Model.Sondage.NbVotant personnes qui ont déjà participées</p>
+                }
+            }
         </div>
         <div class="row">
             <div class="col-lg-2">
@@ -115,40 +124,81 @@
             </div>
         </div>
     </section>
-    <div id="chart"></div>
-    <script type="text/javascript">
-            anychart.onDocumentReady(function () {
-                        // create pie chart with passed data
-                        var chart = anychart.pie([
-                            @foreach(var reponse in Model.MesReponses)
+    <div id="chart">
+    </div>
+    <script>
+        var ctx = document.getElementById("myChart").getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+
+                labels: [
+                    @foreach (var choix in Model.MesReponses)
+                    {
+                        <text>
+                            "@choix.IntituleReponse",
+                        </text>
+                        }
+                ],
+                datasets: [{
+                    label: "@Model.Sondage.NbVotant participants",
+                    data: [
+                        @foreach(var choix in Model.MesReponses)
                         {
-                             <text>
-                    ['@reponse.IntituleReponse', @reponse.GetPourcentage(Model.Sondage)],
+                            <text>
+                            @choix.NbVoteReponse,
                             </text>
                         }
-                ]);
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+    </script>
+    <script type="text/javascript">
+        anychart.onDocumentReady(function () {
+            // create pie chart with passed data
+            var chart = anychart.pie([
+                @foreach(var reponse in Model.MesReponses)
+                            {
+                                 <text>
+                                ['@reponse.IntituleReponse', @reponse.GetPourcentage(Model.Sondage)],
+                                </text>
+                            }
+            ]);
 
-                // set chart title text settings
-                chart.title('@Model.Sondage.QuestionSondage');
-                // set chart labels position to outside
-                chart.labels().position('outside');
-                // set legend title settings
-                chart.legend().title()
-                    .enabled(true)
-                    .text('Choix de réponse :')
-                    .padding([0, 0, 10, 0]);
+            // set chart title text settings
+            chart.title('@Model.Sondage.QuestionSondage');
+            // set chart labels position to outside
+            chart.labels().position('outside');
+            // set legend title settings
+            chart.legend().title()
+                .enabled(true)
+                .text('Choix de réponse :')
+                .padding([0, 0, 10, 0]);
 
-                // set legend position and items layout
-                chart.legend()
-                    .position('center-bottom')
-                    .itemsLayout('horizontal')
-                    .align('center');
+            // set legend position and items layout
+            chart.legend()
+                .position('center-bottom')
+                .itemsLayout('horizontal')
+                .align('center');
 
-                // set container id for the chart
-                chart.container('chart');
-                // initiate chart drawing
-                chart.draw();
-            });
+            // set container id for the chart
+            chart.container('chart');
+
+            chart.fill("aquastyle");
+            // initiate chart drawing
+            chart.draw();
+        });
     </script>
     <footer></footer>
     <!-- Optional JavaScript -->
