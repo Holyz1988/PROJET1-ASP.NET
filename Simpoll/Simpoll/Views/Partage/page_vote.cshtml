@@ -52,10 +52,9 @@
                 int i = 0;
                 if (Model.Sondage.ChoixMultiple)
                 {
-                    <div class="form-group">
-                        @foreach (var reponse in Model.MesReponses)
+                        foreach (var reponse in Model.MesReponses)
                         {
-                            <div class="form-control">
+                            <div class="form-group">
                                 <label class="fancy-checkbox">
                                 <input name="choixReponse" type="checkbox" class="styled" value=@i id="@i" />
                                 <span>@reponse.IntituleReponse</span>
@@ -63,7 +62,6 @@
                             </div>
                             i++;
                         }
-                    </div>
                 }
                 else
                 {
